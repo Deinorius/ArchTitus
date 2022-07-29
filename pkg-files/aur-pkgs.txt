@@ -1,20 +1,25 @@
 --END OF MINIMAL INSTALL--
+#7-zip
+#ani-cli # anime streaming over cli
 autojump
-dxvk-bin
-github-desktop-bin
-lightly-git
-lightlyshaders-git
-mangohud
-mangohud-common
-nerd-fonts-fira-code
+ect # probably best PNG optimizer
+#ferdium
+#flips # floating ips for ROM patching
+#haruna # video-player, but less efficient than mpv directly
+#krop # PDF cropper
+#lightly-git
+#lightlyshaders-git
+#mangohud
+#mangohud-common
+#nerd-fonts-fira-code
 nordic-darker-standard-buttons-theme
 nordic-darker-theme
 nordic-kde-git
 nordic-theme
-ocs-url
-plymouth-git
+#powerstat
 sddm-nordic-theme-git
-snapper-gui-git
-ttf-meslo
-vde2
-zoom
+#teamviewer
+#thinkfan
+#thinkfan-ui
+#ttf-ms-fonts
+#vde2 # 
