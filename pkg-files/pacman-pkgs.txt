@@ -36,6 +36,7 @@ dnsmasq
 efibootmgr
 egl-wayland
 exfat-utils
+firefox
 #fuse2
 #fuse3
 #fuseiso
@@ -73,6 +74,7 @@ qt5-imageformats
 #steam
 #synergy
 terminus-font
+#thunderbird
 #traceroute # track the route taken by packets over an IP
 #virt-manager
 which
