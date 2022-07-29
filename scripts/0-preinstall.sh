@@ -59,7 +59,7 @@ sgdisk -a 2048 -o ${DISK} # new gpt disk 2048 alignment
 
 # create partitions
 sgdisk -n 1::+1M --typecode=1:ef02 --change-name=1:'BIOSBOOT' ${DISK} # partition 1 (BIOS Boot Partition)
-sgdisk -n 2::+300M --typecode=2:ef00 --change-name=2:'EFIBOOT' ${DISK} # partition 2 (UEFI Boot Partition)
+sgdisk -n 2::+550M --typecode=2:ef00 --change-name=2:'EFIBOOT' ${DISK} # partition 2 (UEFI Boot Partition)
 sgdisk -n 3::-0 --typecode=3:8300 --change-name=3:'ROOT' ${DISK} # partition 3 (Root), default start, remaining
 if [[ ! -d "/sys/firmware/efi" ]]; then # Checking for bios system
     sgdisk -A 1:set:2 ${DISK}
@@ -74,19 +74,29 @@ echo -ne "
 "
 # @description Creates the btrfs subvolumes. 
 createsubvolumes () {
-    btrfs subvolume create /mnt/@
-    btrfs subvolume create /mnt/@home
-    btrfs subvolume create /mnt/@var
-    btrfs subvolume create /mnt/@tmp
-    btrfs subvolume create /mnt/@.snapshots
+    btrfs su cr /mnt/@ # to be mounted at /
+    btrfs su cr /mnt/@snapshots # to be mounted at /.snapshots
+    btrfs su cr /mnt/@home # to be mounted at /home
+    btrfs su cr /mnt/@srv # to be mounted at /srv
+    btrfs su cr /mnt/@swap # to be mounted at /swap
+    btrfs su cr /mnt/@var_abs # to be mounted at /var/abs
+    btrfs su cr /mnt/@var_cache_pacmanPkg # to be mounted at /var/cache/pacman/pkg
+    btrfs su cr /mnt/@var_lib_libvirt # to be mounted at /var/log
+    btrfs su cr /mnt/@var_log # to be mounted at /var/log
+    btrfs su cr /mnt/@var_tmp # to be mounted at /var/tmp
 }
 
 # @description Mount all btrfs subvolumes after root has been mounted.
 mountallsubvol () {
+    mount -o ${MOUNT_OPTIONS},subvol=@snapshots ${partition3} /mnt/.snapshots
     mount -o ${MOUNT_OPTIONS},subvol=@home ${partition3} /mnt/home
-    mount -o ${MOUNT_OPTIONS},subvol=@tmp ${partition3} /mnt/tmp
-    mount -o ${MOUNT_OPTIONS},subvol=@var ${partition3} /mnt/var
-    mount -o ${MOUNT_OPTIONS},subvol=@.snapshots ${partition3} /mnt/.snapshots
+    mount -o ${MOUNT_OPTIONS},subvol=@srv ${partition3} /mnt/srv
+    mount -o ${MOUNT_OPTIONS},subvol=@swap ${partition3} /mnt/swap
+    mount -o ${MOUNT_OPTIONS},subvol=@var_abs ${partition3} /mnt/var/abs
+    mount -o ${MOUNT_OPTIONS},subvol=@var_cache_pacmanPkg ${partition3} /mnt/var/cache/pacman/pkg
+    mount -o ${MOUNT_OPTIONS},subvol=@var_lib_libvirt ${partition3} /mnt/var/lib/libvirt
+    mount -o ${MOUNT_OPTIONS},subvol=@var_log ${partition3} /mnt/var/log
+    mount -o ${MOUNT_OPTIONS},subvol=@var_tmp ${partition3} /mnt/var/tmp
 }
 
 # @description BTRFS subvolulme creation and mounting. 
@@ -98,7 +108,7 @@ subvolumesetup () {
 # mount @ subvolume
     mount -o ${MOUNT_OPTIONS},subvol=@ ${partition3} /mnt
 # make directories home, .snapshots, var, tmp
-    mkdir -p /mnt/{home,var,tmp,.snapshots}
+    mkdir -p /mnt/{.snapshots,home,srv,swap,var/{abs,cache/pacman/pkg,log,tmp}}
 # mount subvolumes
     mountallsubvol
 }
@@ -136,8 +146,8 @@ elif [[ "${FS}" == "luks" ]]; then
 fi
 
 # mount target
-mkdir -p /mnt/boot/efi
-mount -t vfat -L EFIBOOT /mnt/boot/
+mkdir -p /mnt/efi
+mount -t vfat -L EFIBOOT /mnt/efi
 
 if ! grep -qs '/mnt' /proc/mounts; then
     echo "Drive is not mounted can not continue"
@@ -151,7 +161,7 @@ echo -ne "
                     Arch Install on Main Drive
 -------------------------------------------------------------------------
 "
-pacstrap /mnt base base-devel linux linux-firmware vim nano sudo archlinux-keyring wget libnewt --noconfirm --needed
+pacstrap /mnt base base-devel $KERNEL linux-firmware archlinux-keyring mkinitcpio libnewt<btrfs-progs sof-firmware alsa-ucm-conf networkmanager iwd dkms $KERNEL-headers vim wget --noconfirm --needed
 echo "keyserver hkp://keyserver.ubuntu.com" >> /mnt/etc/pacman.d/gnupg/gpg.conf
 cp -R ${SCRIPT_DIR} /mnt/root/ArchTitus
 cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
@@ -173,21 +183,21 @@ else
 fi
 echo -ne "
 -------------------------------------------------------------------------
-                    Checking for low memory systems <8G
+                    Setting up swap nonetheless for hibernation
 -------------------------------------------------------------------------
 "
 TOTAL_MEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
-if [[  $TOTAL_MEM -lt 8000000 ]]; then
-    # Put swap into the actual system, not into RAM disk, otherwise there is no point in it, it'll cache RAM into RAM. So, /mnt/ everything.
-    mkdir -p /mnt/opt/swap # make a dir that we can apply NOCOW to to make it btrfs-friendly.
-    chattr +C /mnt/opt/swap # apply NOCOW, btrfs needs that.
-    dd if=/dev/zero of=/mnt/opt/swap/swapfile bs=1M count=2048 status=progress
-    chmod 600 /mnt/opt/swap/swapfile # set permissions.
-    chown root /mnt/opt/swap/swapfile
-    mkswap /mnt/opt/swap/swapfile
-    swapon /mnt/opt/swap/swapfile
+    truncate -s 0 /mnt/swap/swapfile # make a dir that we can apply NOCOW to to make it btrfs-friendly.
+    chattr +C /mnt/swap/swapfile # apply NOCOW, btrfs needs that, deactivates compression as well.
+    dd if=/dev/zero of=/mnt/swap/swapfile bs=1M count=2048 status=progress
+    fallocate -l ${TOTAL_MEM} /mnt/swap/swapfile # Allocate the file with the same size as there is memory.
+    chmod 600 /mnt/swap/swapfile # set permissions.
+    chown root /mnt/swap/swapfile
+    mkswap /mnt/swap/swapfile
+    swapon /mnt/swap/swapfile
     # The line below is written to /mnt/ but doesn't contain /mnt/, since it's just / for the system itself.
-    echo "/opt/swap/swapfile	none	swap	sw	0	0" >> /mnt/etc/fstab # Add swap to fstab, so it KEEPS working after installation.
+    echo "# /swap/swapfile" >> /mnt/etc/fstab
+    echo "/swap/swapfile   none	swap	defaults	0	0" >> /mnt/etc/fstab # Add swap to fstab, so it KEEPS working after installation.
 fi
 echo -ne "
 -------------------------------------------------------------------------
