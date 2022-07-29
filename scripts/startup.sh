@@ -2,7 +2,7 @@
 #github-action genshdoc
 #
 # @file Startup
-# @brief This script will ask users about their prefrences like disk, file system, timezone, keyboard layout, user name, password, etc.
+# @brief This script will ask users about their prefrences like disk, file system, linux kernel, timezone, keyboard layout, user name, password, etc.
 # @stdout Output routed to startup.log
 # @stderror Output routed to startup.log
 
@@ -218,6 +218,19 @@ echo -ne "Your key boards layout: ${keymap} \n"
 set_option KEYMAP $keymap
 }
 
+kernel () {
+echo -ne "
+Please select desired linux kernel from this list"
+# These are the most used kernels as presented in official arch repo
+options=(linux linux-lts linux-zen linux-hardened)
+
+select_option $? 1 "${options[@]}"
+kernel=${options[$?]}
+
+echo -ne "Your linux kernel: ${keymap} \n"
+set_option KERNEL $kernel
+}
+
 # @description Choose whether drive is SSD or not.
 drivessd () {
 echo -ne "
@@ -334,6 +347,9 @@ if [[ ! $desktop_env == server ]]; then
   logo
   installtype
 fi
+clear
+logo
+kernel
 clear
 logo
 diskpart
