@@ -55,7 +55,7 @@ kitty
 #libdvdcss
 lib32-pipewire
 lib32-pipewire-jack
-#libpamac-nosnap
+#libpamac
 libtool
 #lutris
 neofetch
