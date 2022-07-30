@@ -27,31 +27,38 @@ fi
 
 echo -ne "
 -------------------------------------------------------------------------
-               Creating (and Theming) Grub Boot Menu
+               Creating EFI BOOT
 -------------------------------------------------------------------------
 "
-# set kernel parameter for decrypting the drive
-if [[ "${FS}" == "luks" ]]; then
-sed -i "s%GRUB_CMDLINE_LINUX_DEFAULT=\"%GRUB_CMDLINE_LINUX_DEFAULT=\"cryptdevice=UUID=${ENCRYPTED_PARTITION_UUID}:ROOT root=/dev/mapper/ROOT %g" /etc/default/grub
+# set qemu modules, if installing via QEMU/virt-manager
+if [[ "${DISK}" == *"/dev/vd"* ]]; then
+    sed -i '7 s/.*/MODULES=(virtio virtio_blk virtio_pci virtio_net)/' /etc/mkinitcpio.conf
+    pacman -S qemu-guest-agent;
+    systemctl enable qemu-guest-agent.service
 fi
-# set kernel parameter for adding splash screen
-sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="[^"]*/& splash /' /etc/default/grub
+# Editing mkinitcpio configuration for unified kernel image
 
-echo -e "Installing CyberRe Grub theme..."
-THEME_DIR="/boot/grub/themes"
-THEME_NAME=CyberRe
-echo -e "Creating the theme directory..."
-mkdir -p "${THEME_DIR}/${THEME_NAME}"
-echo -e "Copying the theme..."
-cd ${HOME}/ArchTitus
-cp -a configs${THEME_DIR}/${THEME_NAME}/* ${THEME_DIR}/${THEME_NAME}
-echo -e "Backing up Grub config..."
-cp -an /etc/default/grub /etc/default/grub.bak
-echo -e "Setting the theme as the default..."
-grep "GRUB_THEME=" /etc/default/grub 2>&1 >/dev/null && sed -i '/GRUB_THEME=/d' /etc/default/grub
-echo "GRUB_THEME=\"${THEME_DIR}/${THEME_NAME}/theme.txt\"" >> /etc/default/grub
-echo -e "Updating grub..."
-grub-mkconfig -o /boot/grub/grub.cfg
+echo -e "Creating /EFI/Arch folder"
+mkdir -p /efi/EFI/Arch
+echo -e "Editing mkinitcpio.conf..."
+sed -i 's/default_options=""/i default_efi_image="\/efi\/EFI\/Arch\/$KERNEL.efi"\ndefault_options="--splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/$KERNEL.preset
+sed -i 's/fallback_options="-S autodetect"/i fallback_efi_image="\/efi\/EFI\/Arch\/$KERNEL-fallback.efi"\nfallback_options="-S autodetect --splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/$KERNEL.preset
+echo -e "Kernel command line..."
+
+if [[ "${FS}" == "luks" ]]; then
+    sed -i 's/HOOKS=(base systemd \(.*block\) /&sd-encrypt/' /etc/mkinitcpio.conf # create sd-encrypt after block hook
+    LUKS_NAME="blkid -o value -s UUID $(DISK)"
+    echo "rd.luks.name=$LUKS_NAME=cryptroot" > /etc/kernel/cmdline
+    echo "rootflags=subvol=@ root=$(DISK)" > /etc/kernel/cmdline
+fi
+
+if [[ "${FS}" == "btrfs" ]]; then
+    echo "rootflags=subvol=@ root=$(DISK)" > /etc/kernel/cmdline
+fi
+
+echo -e "Creating UEFI boot entries for the .efi files"
+efibootmgr --create --disk $(DISK)1 --part 1 --label "Arch$KERNEL" --loader EFI/Arch/$KERNEL.efi --verbose
+efibootmgr --create --disk $(DISK)1 --part 1 --label "Arch$KERNEL-fallback" --loader EFI/Arch/$KERNEL-fallback.efi --verbose
 echo -e "All set!"
 
 echo -ne "
@@ -63,7 +70,7 @@ if [[ ${DESKTOP_ENV} == "kde" ]]; then
   systemctl enable sddm.service
   if [[ ${INSTALL_TYPE} == "FULL" ]]; then
     echo [Theme] >>  /etc/sddm.conf
-    echo Current=Nordic >> /etc/sddm.conf
+    echo Current=Breeze >> /etc/sddm.conf
   fi
 
 elif [[ "${DESKTOP_ENV}" == "gnome" ]]; then
@@ -129,22 +136,10 @@ fi
 
 echo -ne "
 -------------------------------------------------------------------------
-               Enabling (and Theming) Plymouth Boot Splash
+               Regenerate the initramfs
 -------------------------------------------------------------------------
 "
-PLYMOUTH_THEMES_DIR="$HOME/ArchTitus/configs/usr/share/plymouth/themes"
-PLYMOUTH_THEME="arch-glow" # can grab from config later if we allow selection
-mkdir -p /usr/share/plymouth/themes
-echo 'Installing Plymouth theme...'
-cp -rf ${PLYMOUTH_THEMES_DIR}/${PLYMOUTH_THEME} /usr/share/plymouth/themes
-if  [[ $FS == "luks"]]; then
-  sed -i 's/HOOKS=(base udev*/& plymouth/' /etc/mkinitcpio.conf # add plymouth after base udev
-  sed -i 's/HOOKS=(base udev \(.*block\) /&plymouth-/' /etc/mkinitcpio.conf # create plymouth-encrypt after block hook
-else
-  sed -i 's/HOOKS=(base udev*/& plymouth/' /etc/mkinitcpio.conf # add plymouth after base udev
-fi
-plymouth-set-default-theme -R arch-glow # sets the theme and runs mkinitcpio
-echo 'Plymouth theme installed'
+mkinitcpio -P
 
 echo -ne "
 -------------------------------------------------------------------------
