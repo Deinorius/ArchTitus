@@ -25,6 +25,24 @@ if [[ -d "/sys/firmware/efi" ]]; then
     grub-install --efi-directory=/boot ${DISK}
 fi
 
+if [[ "${FS}" == "luks" || "${FS}" == "btrfs" ]]; then
+sed -i '14 s/.*/BINARIES=(btrfs)/' /etc/mkinitcpio.conf
+echo -ne "
+-------------------------------------------------------------------------
+                    Creating Snapper Config
+-------------------------------------------------------------------------
+"
+
+SNAPPER_CONF="$HOME/ArchTitus/configs/etc/snapper/configs/root"
+mkdir -p /etc/snapper/configs/
+cp -rfv ${SNAPPER_CONF} /etc/snapper/configs/
+
+SNAPPER_CONF_D="$HOME/ArchTitus/configs/etc/conf.d/snapper"
+mkdir -p /etc/conf.d/
+cp -rfv ${SNAPPER_CONF_D} /etc/conf.d/
+
+fi
+
 echo -ne "
 -------------------------------------------------------------------------
                Creating EFI BOOT
@@ -60,7 +78,14 @@ if [[ "${FS}" == "btrfs" ]]; then
     echo "rootflags=subvol=@ root=${DISK}" >> /etc/kernel/cmdline
 fi
 
-echo -e "Creating UEFI boot entries for the .efi files"
+echo -e "Regenerate the initramfs"
+mkinitcpio -P
+
+echo -ne "
+-------------------------------------------------------------------------
+               Creating UEFI boot entries for the .efi files
+-------------------------------------------------------------------------
+"
 efibootmgr --create --disk ${DISK} --part 1 --label "Arch${KERNEL}" --loader \EFI\Arch\${KERNEL}.efi --verbose
 efibootmgr --create --disk ${DISK} --part 1 --label "Arch${KERNEL}-fallback" --loader \EFI\Arch\${KERNEL}-fallback.efi --verbose
 echo -e "All set!"
@@ -119,31 +144,6 @@ systemctl enable bluetooth
 echo "  Bluetooth enabled"
 systemctl enable avahi-daemon.service
 echo "  Avahi enabled"
-
-if [[ "${FS}" == "luks" || "${FS}" == "btrfs" ]]; then
-sed -i '14 s/.*/BINARIES=(btrfs)/' /etc/mkinitcpio.conf
-echo -ne "
--------------------------------------------------------------------------
-                    Creating Snapper Config
--------------------------------------------------------------------------
-"
-
-SNAPPER_CONF="$HOME/ArchTitus/configs/etc/snapper/configs/root"
-mkdir -p /etc/snapper/configs/
-cp -rfv ${SNAPPER_CONF} /etc/snapper/configs/
-
-SNAPPER_CONF_D="$HOME/ArchTitus/configs/etc/conf.d/snapper"
-mkdir -p /etc/conf.d/
-cp -rfv ${SNAPPER_CONF_D} /etc/conf.d/
-
-fi
-
-echo -ne "
--------------------------------------------------------------------------
-               Regenerate the initramfs
--------------------------------------------------------------------------
-"
-mkinitcpio -P
 
 echo -ne "
 -------------------------------------------------------------------------
