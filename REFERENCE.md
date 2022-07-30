@@ -6,3 +6,4 @@
 * [scripts/1-setup.sh](REFERENCE-1-setup.md)
 * [scripts/3-post-setup.sh](REFERENCE-3-post-setup.md)
 * [scripts/2-user.sh](REFERENCE-2-user.md)
+* [scripts/3-post-setup-grub.sh](REFERENCE-3-post-setup-grub.md)
