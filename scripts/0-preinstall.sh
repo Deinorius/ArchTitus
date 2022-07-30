@@ -108,7 +108,7 @@ subvolumesetup () {
 # mount @ subvolume
     mount -o ${MOUNT_OPTIONS},subvol=@ ${partition2} /mnt
 # make directories home, .snapshots, var, tmp
-    mkdir -p /mnt/{.snapshots,home,srv,swap,var/{abs,cache/pacman/pkg,log,tmp}}
+    mkdir -p /mnt/{.snapshots,home,srv,swap,var/{abs,cache/pacman/pkg,lib/libvirt,log,tmp}}
 # mount subvolumes
     mountallsubvol
 }
@@ -190,7 +190,6 @@ echo -ne "
 TOTAL_MEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
     truncate -s 0 /mnt/swap/swapfile # make a dir that we can apply NOCOW to to make it btrfs-friendly.
     chattr +C /mnt/swap/swapfile # apply NOCOW, btrfs needs that, deactivates compression as well.
-    dd if=/dev/zero of=/mnt/swap/swapfile bs=1M count=2048 status=progress
     fallocate -l ${TOTAL_MEM} /mnt/swap/swapfile # Allocate the file with the same size as there is memory.
     chmod 600 /mnt/swap/swapfile # set permissions.
     chown root /mnt/swap/swapfile
