@@ -1,14 +1,14 @@
 plasma-desktop
 sddm
 sddm-kcm
+breeze
 dolphin
+konsole
 --END OF MINIMAL INSTALL--
 ark
 audiocd-kio
 bluedevil
-breeze
 breeze-gtk
-discover
 extra-cmake-modules
 filelight
 gwenview
@@ -23,7 +23,6 @@ kgamma5
 khotkeys
 kimageformats
 kinfocenter
-konsole
 krename
 kscreen
 kvantum-qt5
