@@ -161,7 +161,7 @@ echo -ne "
                     Arch Install on Main Drive
 -------------------------------------------------------------------------
 "
-pacstrap /mnt base base-devel $KERNEL linux-firmware archlinux-keyring mkinitcpio libnewt btrfs-progs sof-firmware alsa-ucm-conf networkmanager iwd dkms $KERNEL-headers vim wget --noconfirm --needed
+pacstrap /mnt base base-devel ${KERNEL} linux-firmware archlinux-keyring mkinitcpio libnewt btrfs-progs sof-firmware alsa-ucm-conf networkmanager iwd dkms ${KERNEL}-headers vim wget --noconfirm --needed
 echo "keyserver hkp://keyserver.ubuntu.com" >> /mnt/etc/pacman.d/gnupg/gpg.conf
 cp -R ${SCRIPT_DIR} /mnt/root/ArchTitus
 cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
