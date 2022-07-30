@@ -110,6 +110,7 @@ systemctl enable avahi-daemon.service
 echo "  Avahi enabled"
 
 if [[ "${FS}" == "luks" || "${FS}" == "btrfs" ]]; then
+sed -i '14 s/.*/BINARIES=(btrfs)/' /etc/mkinitcpio.conf
 echo -ne "
 -------------------------------------------------------------------------
                     Creating Snapper Config
