@@ -33,7 +33,7 @@ echo -ne "
 # set qemu modules, if installing via QEMU/virt-manager
 if [[ "${DISK}" == *"/dev/vd"* ]]; then
     sed -i '7 s/.*/MODULES=(virtio virtio_blk virtio_pci virtio_net)/' /etc/mkinitcpio.conf
-    pacman -S qemu-guest-agent;
+    pacman -S --noconfirm qemu-guest-agent;
     systemctl enable qemu-guest-agent.service
 fi
 # Editing mkinitcpio configuration for unified kernel image
@@ -41,8 +41,8 @@ fi
 echo -e "Creating /EFI/Arch folder"
 mkdir -p /efi/EFI/Arch
 echo -e "Editing mkinitcpio.conf..."
-sed -i 's/default_options=""/i default_efi_image="\/efi\/EFI\/Arch\/$KERNEL.efi"\ndefault_options="--splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/$KERNEL.preset
-sed -i 's/fallback_options="-S autodetect"/i fallback_efi_image="\/efi\/EFI\/Arch\/$KERNEL-fallback.efi"\nfallback_options="-S autodetect --splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/$KERNEL.preset
+sed -i 's/default_options=""/i default_efi_image="\/efi\/EFI\/Arch\/linux-zen.efi"\ndefault_options="--splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/$KERNEL.preset
+sed -i 's/fallback_options="-S autodetect"/i fallback_efi_image="\/efi\/EFI\/Arch\/linux-zen-fallback.efi"\nfallback_options="-S autodetect --splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/$KERNEL.preset
 echo -e "Kernel command line..."
 
 if [[ "${FS}" == "luks" ]]; then
@@ -57,8 +57,8 @@ if [[ "${FS}" == "btrfs" ]]; then
 fi
 
 echo -e "Creating UEFI boot entries for the .efi files"
-efibootmgr --create --disk $(DISK)1 --part 1 --label "Arch$KERNEL" --loader EFI/Arch/$KERNEL.efi --verbose
-efibootmgr --create --disk $(DISK)1 --part 1 --label "Arch$KERNEL-fallback" --loader EFI/Arch/$KERNEL-fallback.efi --verbose
+efibootmgr --create --disk $(DISK)1 --part 1 --label "ArchLinux-zen" --loader EFI/Arch/linux-zen.efi --verbose
+efibootmgr --create --disk $(DISK)1 --part 1 --label "ArchLinux-zen-fallback" --loader EFI/Arch/linux-zen-fallback.efi --verbose
 echo -e "All set!"
 
 echo -ne "
