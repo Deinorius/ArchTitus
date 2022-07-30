@@ -14,7 +14,6 @@ ttf-liberation
 usbutils
 xdg-user-dirs
 --END OF MINIMAL INSTALL--
-aimp
 alsa-plugins
 alsa-utils
 autoconf
@@ -51,6 +50,7 @@ haveged
 htop
 iptables-nft
 #jdk-openjdk
+juk
 kitty
 #libdvdcss
 lib32-pipewire
