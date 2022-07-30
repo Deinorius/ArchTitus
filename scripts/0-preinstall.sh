@@ -180,7 +180,7 @@ if [[ ! -d "/sys/firmware/efi" ]]; then
     grub-install --boot-directory=/mnt/boot ISK}
 else
     pacstrap /mnt efibootmgr --noconfirm --needed
-    sed -i '52 s/.*/HOOKS="base systemd keyboard autodetect sd-vconsole modconf block filesystems fsck"/' /mnt/etc/mkinitcpio.conf
+#    sed -i '52 s/.*/HOOKS="base systemd keyboard autodetect sd-vconsole modconf block filesystems fsck"/' /mnt/etc/mkinitcpio.conf
 fi
 echo -ne "
 -------------------------------------------------------------------------
