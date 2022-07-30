@@ -40,4 +40,5 @@ qt5-imageformats
 spectacle
 systemsettings
 xdg-desktop-portal-kde
+yakuake
 zeroconf-ioslave
