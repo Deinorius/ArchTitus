@@ -46,7 +46,7 @@ firefox
 #gparted
 #gptfdisk
 gst-libav
-gst-plugins-pipewire
+gst-plugin-pipewire
 haveged
 htop
 iptables-nft
