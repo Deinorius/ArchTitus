@@ -166,7 +166,7 @@ echo "keyserver hkp://keyserver.ubuntu.com" >> /mnt/etc/pacman.d/gnupg/gpg.conf
 cp -R ${SCRIPT_DIR} /mnt/root/ArchTitus
 cp /etc/pacman.d/mirrorlist /mnt/etc/pacman.d/mirrorlist
 
-genfstab -L /mnt >> /mnt/etc/fstab
+genfstab -U /mnt >> /mnt/etc/fstab
 echo " 
   Generated /etc/fstab:
 "
@@ -177,9 +177,10 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 if [[ ! -d "/sys/firmware/efi" ]]; then
-    grub-install --boot-directory=/mnt/boot ${DISK}
+    grub-install --boot-directory=/mnt/boot ISK}
 else
     pacstrap /mnt efibootmgr --noconfirm --needed
+    sed -i '52 s/.*/HOOKS="base systemd keyboard autodetect sd-vconsole modconf block filesystems fsck"/' /mnt/etc/mkinitcpio.conf
 fi
 echo -ne "
 -------------------------------------------------------------------------
