@@ -40,25 +40,29 @@ fi
 
 echo -e "Creating /EFI/Arch folder"
 mkdir -p /efi/EFI/Arch
+
 echo -e "Editing mkinitcpio.conf..."
-sed -i 's/default_options=""/i default_efi_image="\/efi\/EFI\/Arch\/linux-zen.efi"\ndefault_options="--splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/$KERNEL.preset
-sed -i 's/fallback_options="-S autodetect"/i fallback_efi_image="\/efi\/EFI\/Arch\/linux-zen-fallback.efi"\nfallback_options="-S autodetect --splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/$KERNEL.preset
+sed -i 's/default_options=""/default_efi_image="\/efi\/EFI\/Arch\/linux-zen.efi"\ndefault_options="--splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/$KERNEL.preset
+sed -i 's/fallback_options="-S autodetect"/fallback_efi_image="\/efi\/EFI\/Arch\/linux-zen-fallback.efi"\nfallback_options="-S autodetect --splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/$KERNEL.preset
+
 echo -e "Kernel command line..."
 
 if [[ "${FS}" == "luks" ]]; then
     sed -i 's/HOOKS=(base systemd \(.*block\) /&sd-encrypt/' /etc/mkinitcpio.conf # create sd-encrypt after block hook
-    LUKS_NAME="blkid -o value -s UUID $(DISK)"
+    LUKS_NAME="blkid -o value -s UUID ${DISK}"
     echo "rd.luks.name=$LUKS_NAME=cryptroot" > /etc/kernel/cmdline
-    echo "rootflags=subvol=@ root=$(DISK)" > /etc/kernel/cmdline
+    echo "rootflags=subvol=@ root=${DISK}" >> /etc/kernel/cmdline
 fi
 
 if [[ "${FS}" == "btrfs" ]]; then
-    echo "rootflags=subvol=@ root=$(DISK)" > /etc/kernel/cmdline
+    LUKS_NAME="blkid -o value -s UUID ${DISK}"
+    echo "root=UUID=${DISK}" > /etc/kernel/cmdline
+    echo "rootflags=subvol=@ root=${DISK}" >> /etc/kernel/cmdline
 fi
 
 echo -e "Creating UEFI boot entries for the .efi files"
-efibootmgr --create --disk $(DISK)1 --part 1 --label "ArchLinux-zen" --loader EFI/Arch/linux-zen.efi --verbose
-efibootmgr --create --disk $(DISK)1 --part 1 --label "ArchLinux-zen-fallback" --loader EFI/Arch/linux-zen-fallback.efi --verbose
+efibootmgr --create --disk ${DISK} --part 1 --label "Arch${KERNEL}" --loader \EFI\Arch\${KERNEL}.efi --verbose
+efibootmgr --create --disk ${DISK} --part 1 --label "Arch${KERNEL}-fallback" --loader \EFI\Arch\${KERNEL}-fallback.efi --verbose
 echo -e "All set!"
 
 echo -ne "
