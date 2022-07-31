@@ -27,7 +27,7 @@ fi
 
 if [[ "${FS}" == "luks" || "${FS}" == "btrfs" ]]; then
 sed -i '14 s/.*/BINARIES=(btrfs)/' /etc/mkinitcpio.conf
-echo -ne "
+echo -ne "g
 -------------------------------------------------------------------------
                     Creating Snapper Config
 -------------------------------------------------------------------------
@@ -60,9 +60,9 @@ echo -e "Creating /EFI/Arch folder"
 mkdir -p /efi/EFI/Arch
 
 echo -e "Editing mkinitcpio.conf..."
-sed -i 's/default_options=""/default_efi_image="\/efi\/EFI\/Arch\/linux-zen.efi"\ndefault_options="--splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/$KERNEL.preset
-sed -i 's/fallback_options="-S autodetect"/fallback_efi_image="\/efi\/EFI\/Arch\/linux-zen-fallback.efi"\nfallback_options="-S autodetect --splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/$KERNEL.preset
-
+sed -i 's/default_options=""/default_efi_image="\/efi\/EFI\/Arch\/${KERNEL}.efi"\ndefault_options="--splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/${KERNEL}.preset
+sed -i 's/fallback_options="-S autodetect"/fallback_efi_image="\/efi\/EFI\/Arch\/${KERNEL}-fallback.efi"\nfallback_options="-S autodetect --splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/${KERNEL}.preset
+#sed -i 's/^#default_efi_image/default_efi_image/' /etc/mkinitcpio.d/${KERNEL}.preset
 echo -e "Kernel command line..."
 
 if [[ "${FS}" == "luks" ]]; then
@@ -97,9 +97,8 @@ echo -ne "
 "
 if [[ ${DESKTOP_ENV} == "kde" ]]; then
   systemctl enable sddm.service
-  if [[ ${INSTALL_TYPE} == "FULL" ]]; then
-    echo [Theme] >>  /etc/sddm.conf
-    echo Current=Breeze >> /etc/sddm.conf
+  echo [Theme] >>  /etc/sddm.conf
+  echo Current=Breeze >> /etc/sddm.conf
   fi
 
 elif [[ "${DESKTOP_ENV}" == "gnome" ]]; then
