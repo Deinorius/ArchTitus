@@ -1,9 +1,9 @@
 --END OF MINIMAL INSTALL--
 #7-zip
-#ani-cli # anime streaming over cli
+#ani-cli # anime streaming over clig
 autojump
 ect # probably best PNG optimizer
-#ferdium
+#ferdium-bin
 #flips # floating ips for ROM patching
 #haruna # video-player, but less efficient than mpv directly
 #krop # PDF cropper
