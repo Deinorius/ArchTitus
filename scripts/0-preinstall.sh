@@ -190,7 +190,7 @@ echo -ne "
 TOTAL_MEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
     truncate -s 0 /mnt/swap/swapfile # make a dir that we can apply NOCOW to to make it btrfs-friendly.
     chattr +C /mnt/swap/swapfile # apply NOCOW, btrfs needs that, deactivates compression as well.
-    fallocate -l ${TOTAL_MEM} /mnt/swap/swapfile # Allocate the file with the same size as there is memory.
+    fallocate -l ${TOTAL_MEM}K /mnt/swap/swapfile # Allocate the file with the same size as there is memory.
     chmod 600 /mnt/swap/swapfile # set permissions.
     chown root /mnt/swap/swapfile
     mkswap /mnt/swap/swapfile
