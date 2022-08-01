@@ -146,8 +146,23 @@ echo -ne "
                     Setting custom tweaks
 -------------------------------------------------------------------------
 "
-echo "syntax on" >> /etc/vimrc
-echo "  Set Vim to using Syntax highlighting
+echo -e "\
+   "Syntax highlighting\n\
+   syntax on\n\
+   "Number lines\n\
+   set number\n\
+   "Autocomplete\n\
+   set wildmenu\n\
+   "Highlight matching brackets\n\
+   set showmatch\n\
+   "Search tweaks\n\
+   set incsearch\n\
+   set hlsearch\n\" > /etc/vimrc
+echo "  Set Vim tweaks - Syntax highlighting, number lines, etc"
+sysctl vm.swappiness=10
+echo "vm.swappiness=10" >> /etc/sysctl.conf
+echo " Set system to a lower swappiness with value 10"
+
 
 echo -ne "
 -------------------------------------------------------------------------
