@@ -1,0 +1,37 @@
+[Description]
+Skin=Breeze Dark Compact
+Author=Yaroslav Sidlovsky
+Email=zawertun@gmail.com
+Icon=/icon.png
+
+[Tabs]
+x=20
+y=0
+red=239
+green=240
+blue=241
+separator_image=/tabs/separator.png
+selected_background=/tabs/selected_back.png
+unselected_background=/tabs/unselected_back.png
+prevent_closing_image=/tabs/pin.png
+prevent_closing_image_x=3
+prevent_closing_image_y=2
+
+[Background]
+back_image=/tabs/back_image.png
+left_corner=/tabs/left_corner.png
+right_corner=/tabs/right_corner.png
+
+[PlusButton]
+x=3
+y=0
+up_image=/tabs/add_up.png
+over_image=/tabs/add_down.png
+down_image=/tabs/add_down.png
+
+[MinusButton]
+x=18
+y=0
+up_image=/tabs/close_up.png
+over_image=/tabs/close_down.png
+down_image=/tabs/close_down.png
