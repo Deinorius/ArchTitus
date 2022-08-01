@@ -156,12 +156,13 @@ echo -ne "
 "
 if [[ ${SHELL} == "bash" ]]; then
    cp -rfv $HOME/ArchTitus/configs/etc/skel/.bashrc /etc/skel/.bashrc
+   cp -rfv $HOME/ArchTitus/configs/etc/.bashrc $HOME/fancy-bash-prompt.bashrc
 fi
 
 if [[ ${SHELL} == "zsh" ]]; then
-   pacman -S --noconfirm --needed zsh zsh-autosuggestions zsh-completions zsh-history-substring-search zsh-syntax-highlighting zsh-powerlevel10k nerd-fonts-noto-sans-mono
+   pacman -S --noconfirm --needed zsh zsh-autosuggestions zsh-completions zsh-history-substring-search zsh-syntax-highlighting zsh-powerlevel10k nerd-fonts-noto-sans-mono grml-zsh-config
    chsh -s $/usr/bin/zsh
-   git clone https://github.com/Chrysostomus/manjaro-zsh-config
+   #git clone https://github.com/Chrysostomus/manjaro-zsh-config
    #no idea, what to do next
 fi
 
