@@ -1,21 +1,22 @@
 plasma-desktop
 sddm
 sddm-kcm
-breeze
-dolphin
-konsole
---END OF MINIMAL INSTALL--
 ark
+breeze
+breeze-gtk
+dolphin
+kde-gtk-config
+konsole
+plasma-wayland-session
+--END OF MINIMAL INSTALL--
 audiocd-kio
 bluedevil
-breeze-gtk
 extra-cmake-modules
 filelight
 gwenview
 kate
 kcalc
 kdegraphics-thumbnailers
-kde-gtk-config
 kcodecs
 kcoreaddons
 kdeplasma-addons
@@ -33,12 +34,10 @@ okular
 plasma-browser-integration
 plasma-nm
 plasma-pa
-plasma-wayland-session
 powerdevil
 #print-manager
 qt5-imageformats
 spectacle
-systemsettings
 xdg-desktop-portal-kde
 yakuake
 zeroconf-ioslave
