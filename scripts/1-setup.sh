@@ -32,6 +32,7 @@ echo -ne "
 pacman -S --noconfirm --needed pacman-contrib curl
 pacman -S --noconfirm --needed reflector rsync arch-install-scripts git
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
+echo "--country Austria,Germany" >> /etc/xdg/reflector/reflector.conf
 
 nc=$(grep -c ^processor /proc/cpuinfo)
 echo -ne "
