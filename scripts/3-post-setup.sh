@@ -17,13 +17,6 @@ echo -ne "
 -------------------------------------------------------------------------
 
 Final Setup and Configurations
-GRUB EFI Bootloader Install & Check
-"
-source ${HOME}/ArchTitus/configs/setup.conf
-
-if [[ -d "/sys/firmware/efi" ]]; then
-    grub-install --efi-directory=/boot ${DISK}
-fi
 
 if [[ "${FS}" == "luks" || "${FS}" == "btrfs" ]]; then
 sed -i '14 s/.*/BINARIES=(btrfs)/' /etc/mkinitcpio.conf
@@ -63,6 +56,7 @@ echo -e "Editing mkinitcpio.conf..."
 sed -i 's/default_options=""/default_efi_image="\/efi\/EFI\/Arch\/${KERNEL}.efi"\ndefault_options="--splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/${KERNEL}.preset
 sed -i 's/fallback_options="-S autodetect"/fallback_efi_image="\/efi\/EFI\/Arch\/${KERNEL}-fallback.efi"\nfallback_options="-S autodetect --splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/${KERNEL}.preset
 #sed -i 's/^#default_efi_image/default_efi_image/' /etc/mkinitcpio.d/${KERNEL}.preset
+
 echo -e "Kernel command line..."
 
 if [[ "${FS}" == "luks" ]]; then
@@ -96,9 +90,12 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 if [[ ${DESKTOP_ENV} == "kde" ]]; then
-  systemctl enable sddm.service
   echo [Theme] >>  /etc/sddm.conf
   echo Current=Breeze >> /etc/sddm.conf
+  cp -r /usr/lib/sddm/sddm.conf.d/ /etc/
+  echo "[THEME]" >> /etc/sddm.conf.d/default.conf
+  echo "Current=breeze" >> /etc/sddm.conf.d/default.conf
+  systemctl enable sddm.service
   fi
 
 elif [[ "${DESKTOP_ENV}" == "gnome" ]]; then
@@ -143,6 +140,15 @@ systemctl enable bluetooth
 echo "  Bluetooth enabled"
 systemctl enable avahi-daemon.service
 echo "  Avahi enabled"
+
+echo -ne "
+-------------------------------------------------------------------------
+                    Setting custom tweaks
+-------------------------------------------------------------------------
+"
+echo "syntax on" >> /etc/vimrc
+echo "  Set Vim to using Syntax highlighting
+
 
 echo -ne "
 -------------------------------------------------------------------------
