@@ -227,8 +227,21 @@ options=(linux linux-lts linux-zen linux-hardened)
 select_option $? 1 "${options[@]}"
 kernel=${options[$?]}
 
-echo -ne "Your linux kernel: ${keymap} \n"
+echo -ne "Your linux kernel: ${kernel} \n"
 set_option KERNEL $kernel
+}
+
+shell () {
+echo -ne "
+Please select desired shell with edited plugins from this list"
+# bash is most used standard, while zsh has more features. bash is sufficient.
+options=(bash zsh)
+
+select_option $? 1 "${options[@]}"
+shell=${options[$?]}
+
+echo -ne "Your shell: ${shell} \n"
+set_option SHELL $shell
 }
 
 # @description Choose whether drive is SSD or not.
@@ -362,3 +375,6 @@ timezone
 clear
 logo
 keymap
+clear
+logo
+shell
