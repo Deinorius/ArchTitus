@@ -149,6 +149,22 @@ echo -ne "
 echo "syntax on" >> /etc/vimrc
 echo "  Set Vim to using Syntax highlighting
 
+echo -ne "
+-------------------------------------------------------------------------
+                    bash/zsh: Setting all plugins
+-------------------------------------------------------------------------
+"
+if [[ ${SHELL} == "bash" ]]; then
+   cp -rfv $HOME/ArchTitus/configs/etc/skel/.bashrc /etc/skel/.bashrc
+fi
+
+if [[ ${SHELL} == "zsh" ]]; then
+   pacman -S --noconfirm --needed zsh zsh-autosuggestions zsh-completions zsh-history-substring-search zsh-syntax-highlighting zsh-powerlevel10k nerd-fonts-noto-sans-mono
+   chsh -s $/usr/bin/zsh
+   git clone https://github.com/Chrysostomus/manjaro-zsh-config
+   #no idea, what to do next
+fi
+
 
 echo -ne "
 -------------------------------------------------------------------------
