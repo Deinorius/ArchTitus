@@ -42,13 +42,13 @@ done
 if [[ $AUR_HELPER == pamac ]]; then
   sudo pacman -S --noconfirm --needed cmake meson vala libhandy libnotify asciidoc
   cd ~
-  git clone "https://gitlab.manjaro.org/applications/$AUR_HELPER"
+  git clone "https://gitlab.manjaro.org/applications/$AUR_HELPER.git"
   cd ~/$AUR_HELPER
-  meson setup --prefix=/usr --sysconfdir=/etc --buildtype=release ~/$AUR_HELPER
+  meson setup --prefix=/usr --sysconfdir=/etc --buildtype=release ~/$AUR_HELPER-build
   meson compile
   meson install
   sudo pacman -Rs --noconfirm cmake libnotify meson vala asciidoc
-  rm -r pamac
+  rm -r pamac*
   # sed $INSTALL_TYPE is using install type to check for MINIMAL installation, if it's true, stop
   # stop the script and move on, not installing any more packages below that line
   sed -n '/'$INSTALL_TYPE'/q;p' ~/ArchTitus/pkg-files/aur-pkgs.txt | while read line
