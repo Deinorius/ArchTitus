@@ -57,8 +57,8 @@ echo -e "Creating /EFI/Arch folder"
 mkdir -p /efi/EFI/Arch
 
 echo -e "Editing mkinitcpio.conf..."
-sed -i 's/#default_options=""/default_efi_image="\/efi\/EFI\/Arch\/$KERNEL.efi"\ndefault_options="--splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/$KERNEL.preset
-sed -i 's/fallback_options="-S autodetect"/fallback_efi_image="\/efi\/EFI\/Arch\/$KERNEL-fallback.efi"\nfallback_options="-S autodetect --splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/$KERNEL.preset
+sed -i 's/#default_options=""/default_efi_image="\/efi\/EFI\/Arch\/${KERNEL}.efi"\ndefault_options="--splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/$KERNEL.preset
+sed -i 's/fallback_options="-S autodetect"/fallback_efi_image="\/efi\/EFI\/Arch\/${KERNEL}-fallback.efi"\nfallback_options="-S autodetect --splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/$KERNEL.preset
 #sed -i 's/^#default_efi_image/default_efi_image/' /etc/mkinitcpio.d/${KERNEL}.preset
 
 echo -e "Kernel command line..."
@@ -84,8 +84,8 @@ echo -ne "
                Creating UEFI boot entries for the .efi files
 -------------------------------------------------------------------------
 "
-efibootmgr --create --disk ${DISK} --part 1 --label "Arch$KERNEL" --loader EFI/Arch/$KERNEL.efi --verbose
-efibootmgr --create --disk ${DISK} --part 1 --label "Arch$KERNEL-fallback" --loader EFI/Arch/$KERNEL-fallback.efi --verbose
+efibootmgr --create --disk ${DISK} --part 1 --label "Arch${KERNEL}" --loader EFI/Arch/${KERNEL}.efi --verbose
+efibootmgr --create --disk ${DISK} --part 1 --label "Arch${KERNEL}-fallback" --loader EFI/Arch/${KERNEL}-fallback.efi --verbose
 echo -e "All set!"
 
 echo -ne "
@@ -106,8 +106,8 @@ if [[ ${DESKTOP_ENV} == "kde" ]]; then
       # If selected installation type is FULL, skip the --END OF THE MINIMAL INSTALLATION-- line
       continue
     fi
-    cp -r /home/$USERNAME/ArchTitus/config/yakuake-skin/ /home/$USERNAME/.local/share/yakuake/kns_skins/BreezeDarkCompact/
-    sed -i 's/^Skin=/Skin=BreezeDarkCompact/' /home/$USERNAME/.config/yakuakerc
+    cp -r ${HOME}/ArchTitus/config/yakuake-skin/ /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
+    sed -i 's/^Skin=/Skin=BreezeDarkCompact/' /home/${USERNAME}/.config/yakuakerc
   done
   
 elif [[ "${DESKTOP_ENV}" == "gnome" ]]; then
@@ -165,7 +165,7 @@ echo "  Set Vim tweaks - Syntax highlighting, number lines, etc"
 sysctl vm.swappiness=10
 echo "vm.swappiness=10" >> /etc/sysctl.conf
 echo "  Set system to a lower swappiness with value 10"
-localectl set-x11-keymap $KEYMAP
+localectl set-x11-keymap ${KEYMAP}
 echo "  Set X.org keymap layout"
 
 
@@ -175,8 +175,8 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 if [[ ${SHELL} == "bash" ]]; then
-   cp -rfv /home/deinorius/ArchTitus/configs/etc/skel/.bashrc /etc/skel/.bashrc
-   cp -rfv /home/deinorius/ArchTitus/configs/etc/.bashrc $HOME/fancy-bash-prompt.bashrc
+   cp -rfv ${HOME}/ArchTitus/configs/etc/skel/.bashrc /etc/skel/.bashrc
+   cp -rfv ${HOME}/ArchTitus/configs/etc/.bashrc /home/${USERNAME}/fancy-bash-prompt.bashrc
 fi
 
 if [[ ${SHELL} == "zsh" ]]; then
@@ -200,7 +200,7 @@ sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
 rm -r $HOME/ArchTitus
-rm -r /home/$USERNAME/ArchTitus
+rm -r /home/${USERNAME}/ArchTitus
 
 # Replace in the same state
 cd $pwd
