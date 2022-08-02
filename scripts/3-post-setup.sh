@@ -70,7 +70,7 @@ fi
 
 if [[ "${FS}" == "btrfs" ]]; then
     LUKS_NAME="blkid -o value -s UUID ${DISK}"
-    echo "root=UUID=$LUKS_NAME rootflags=subvol=@ root=${DISK} rw bgrt_disable" > /etc/kernel/cmdline
+    echo "rootflags=subvol=@ root=$LUKS_NAME rw bgrt_disable" > /etc/kernel/cmdline
 fi
 
 echo -e "Regenerate the initramfs"
