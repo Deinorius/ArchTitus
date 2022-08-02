@@ -1,4 +1,4 @@
-#!/usr/bin/env bash#5PSPMZXZVDZZ
+#!/usr/bin/env bash
 #github-action genshdoc
 #
 # @file User
