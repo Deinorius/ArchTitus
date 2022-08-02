@@ -365,6 +365,9 @@ logo
 kernel
 clear
 logo
+shell
+clear
+logo
 diskpart
 clear
 logo
@@ -375,6 +378,3 @@ timezone
 clear
 logo
 keymap
-clear
-logo
-shell
