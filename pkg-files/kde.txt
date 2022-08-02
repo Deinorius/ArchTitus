@@ -8,6 +8,7 @@ dolphin
 kde-gtk-config
 konsole
 plasma-wayland-session
+yakuake
 --END OF MINIMAL INSTALL--
 audiocd-kio
 bluedevil
