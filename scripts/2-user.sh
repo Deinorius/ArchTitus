@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash#5PSPMZXZVDZZ
 #github-action genshdoc
 #
 # @file User
@@ -48,6 +48,7 @@ if [[ $AUR_HELPER == pamac ]]; then
   meson compile
   meson install
   sudo pacman -Rs --noconfirm meson vala asciidoc
+  rm -r pamac
   # sed $INSTALL_TYPE is using install type to check for MINIMAL installation, if it's true, stop
   # stop the script and move on, not installing any more packages below that line
   sed -n '/'$INSTALL_TYPE'/q;p' ~/ArchTitus/pkg-files/aur-pkgs.txt | while read line
