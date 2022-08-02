@@ -19,9 +19,12 @@ echo -ne "
 Final Setup and Configurations
 "
 
+source ${HOME}/ArchTitus/configs/setup.conf
+
 if [[ "${FS}" == "luks" || "${FS}" == "btrfs" ]]; then
-sed -i '14 s/.*/BINARIES=(btrfs)/' /etc/mkinitcpio.conf
-echo -ne "g
+ sed -i '14 s/.*/BINARIES=(btrfs)/' /etc/mkinitcpio.conf
+
+echo -ne "
 -------------------------------------------------------------------------
                     Creating Snapper Config
 -------------------------------------------------------------------------
@@ -45,7 +48,7 @@ echo -ne "
 # set qemu modules, if installing via QEMU/virt-manager
 if [[ "${DISK}" == *"/dev/vd"* ]]; then
     sed -i '7 s/.*/MODULES=(virtio virtio_blk virtio_pci virtio_net)/' /etc/mkinitcpio.conf
-    pacman -S --noconfirm qemu-guest-agent;
+    sudo pacman -S --noconfirm qemu-guest-agent;
     systemctl enable qemu-guest-agent.service
 fi
 # Editing mkinitcpio configuration for unified kernel image
@@ -54,8 +57,8 @@ echo -e "Creating /EFI/Arch folder"
 mkdir -p /efi/EFI/Arch
 
 echo -e "Editing mkinitcpio.conf..."
-sed -i 's/default_options=""/default_efi_image="\/efi\/EFI\/Arch\/${KERNEL}.efi"\ndefault_options="--splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/${KERNEL}.preset
-sed -i 's/fallback_options="-S autodetect"/fallback_efi_image="\/efi\/EFI\/Arch\/${KERNEL}-fallback.efi"\nfallback_options="-S autodetect --splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/${KERNEL}.preset
+sed -i 's/#default_options=""/default_efi_image="\/efi\/EFI\/Arch\/$KERNEL.efi"\ndefault_options="--splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/$KERNEL.preset
+sed -i 's/fallback_options="-S autodetect"/fallback_efi_image="\/efi\/EFI\/Arch\/$KERNEL-fallback.efi"\nfallback_options="-S autodetect --splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/$KERNEL.preset
 #sed -i 's/^#default_efi_image/default_efi_image/' /etc/mkinitcpio.d/${KERNEL}.preset
 
 echo -e "Kernel command line..."
@@ -81,8 +84,8 @@ echo -ne "
                Creating UEFI boot entries for the .efi files
 -------------------------------------------------------------------------
 "
-efibootmgr --create --disk ${DISK} --part 1 --label "Arch${KERNEL}" --loader EFI/Arch/${KERNEL}.efi --verbose
-efibootmgr --create --disk ${DISK} --part 1 --label "Arch${KERNEL}-fallback" --loader EFI/Arch/${KERNEL}-fallback.efi --verbose
+efibootmgr --create --disk ${DISK} --part 1 --label "Arch$KERNEL" --loader EFI/Arch/$KERNEL.efi --verbose
+efibootmgr --create --disk ${DISK} --part 1 --label "Arch$KERNEL-fallback" --loader EFI/Arch/$KERNEL-fallback.efi --verbose
 echo -e "All set!"
 
 echo -ne "
@@ -103,7 +106,7 @@ if [[ ${DESKTOP_ENV} == "kde" ]]; then
       # If selected installation type is FULL, skip the --END OF THE MINIMAL INSTALLATION-- line
       continue
     fi
-    cp -r $HOME/ArchTitus/config/yakuake-skin/ /home/$USERNAME/.local/share/yakuake/kns_skins/BreezeDarkCompact/
+    cp -r /home/$USERNAME/ArchTitus/config/yakuake-skin/ /home/$USERNAME/.local/share/yakuake/kns_skins/BreezeDarkCompact/
     sed -i 's/^Skin=/Skin=BreezeDarkCompact/' /home/$USERNAME/.config/yakuakerc
   done
   
@@ -123,7 +126,7 @@ elif [[ "${DESKTOP_ENV}" == "openbox" ]]; then
   fi
 
 else
-  if [[ ! "${DESKTOP_ENV}" == "server"  ]]; then
+  if [[ ! "${DESKTOP_ENV}" == "server"  || ! "${DESKTOP_ENV}" == "kde"  ]]; then
   sudo pacman -S --noconfirm --needed lightdm lightdm-gtk-greeter
   systemctl enable lightdm.service
   fi
@@ -157,18 +160,7 @@ echo -ne "
                     Setting custom tweaks
 -------------------------------------------------------------------------
 "
-echo -e "\
-   "Syntax highlighting\n\
-   syntax on\n\
-   "Number lines\n\
-   set number\n\
-   "Autocomplete\n\
-   set wildmenu\n\
-   "Highlight matching brackets\n\
-   set showmatch\n\
-   "Search tweaks\n\
-   set incsearch\n\
-   set hlsearch\n\" > /etc/vimrc
+echo -e """Syntax highlighting\nsyntax on\n""Number lines\nset number\n""Autocomplete\nset wildmenu\n""Highlight matching brackets\nset showmatch\n""Search tweaks\nset incsearch\nset hlsearch\n" > /etc/vimrc
 echo "  Set Vim tweaks - Syntax highlighting, number lines, etc"
 sysctl vm.swappiness=10
 echo "vm.swappiness=10" >> /etc/sysctl.conf
@@ -183,8 +175,8 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 if [[ ${SHELL} == "bash" ]]; then
-   cp -rfv $HOME/ArchTitus/configs/etc/skel/.bashrc /etc/skel/.bashrc
-   cp -rfv $HOME/ArchTitus/configs/etc/.bashrc $HOME/fancy-bash-prompt.bashrc
+   cp -rfv /home/deinorius/ArchTitus/configs/etc/skel/.bashrc /etc/skel/.bashrc
+   cp -rfv /home/deinorius/ArchTitus/configs/etc/.bashrc $HOME/fancy-bash-prompt.bashrc
 fi
 
 if [[ ${SHELL} == "zsh" ]]; then
