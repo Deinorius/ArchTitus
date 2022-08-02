@@ -65,7 +65,7 @@ systemctl enable systemd-timesyncd.service
 # Set keymaps
 localectl --no-ask-password set-keymap ${KEYMAP}
 echo KEYMAP=${KEYMAP} > /etc/vconsole.conf
-echo LANG=en_US.UTF-8 > /etc/locale.conf
+#echo LANG=en_US.UTF-8 > /etc/locale.conf
 # Add sudo no password rights
 sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
 sed -i 's/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
