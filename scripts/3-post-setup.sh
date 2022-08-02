@@ -57,8 +57,8 @@ echo -e "Creating /EFI/Arch folder"
 mkdir -p /efi/EFI/Arch
 
 echo -e "Editing mkinitcpio.conf..."
-sed -i 's/#default_options=""/default_efi_image="\/efi\/EFI\/Arch\/$KERNEL.efi"\ndefault_options="--splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/${KERNEL}.preset
-sed -i 's/fallback_options="-S autodetect"/fallback_efi_image="\/efi\/EFI\/Arch\/$KERNEL-fallback.efi"\nfallback_options="-S autodetect --splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/${KERNEL}.preset
+sed -i 's/#default_options=""/default_efi_image="\/efi\/EFI\/Arch\/${KERNEL}.efi"\ndefault_options="--splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/${KERNEL}.preset
+sed -i 's/fallback_options="-S autodetect"/fallback_efi_image="\/efi\/EFI\/Arch\/${KERNEL}-fallback.efi"\nfallback_options="-S autodetect --splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/${KERNEL}.preset
 
 echo -e "Kernel command line..."
 
@@ -70,7 +70,7 @@ fi
 
 if [[ "${FS}" == "btrfs" ]]; then
     LUKS_NAME="blkid -o value -s UUID ${DISK}"
-    echo "root=UUID=${DISK} rootflags=subvol=@ root=${DISK} rw bgrt_disable" > /etc/kernel/cmdline
+    echo "root=UUID=$LUKS_NAME rootflags=subvol=@ root=${DISK} rw bgrt_disable" > /etc/kernel/cmdline
 fi
 
 echo -e "Regenerate the initramfs"
