@@ -81,8 +81,8 @@ echo -ne "
                Creating UEFI boot entries for the .efi files
 -------------------------------------------------------------------------
 "
-efibootmgr --create --disk ${DISK} --part 1 --label "Arch${KERNEL}" --loader \EFI\Arch\${KERNEL}.efi --verbose
-efibootmgr --create --disk ${DISK} --part 1 --label "Arch${KERNEL}-fallback" --loader \EFI\Arch\${KERNEL}-fallback.efi --verbose
+efibootmgr --create --disk ${DISK} --part 1 --label "Arch${KERNEL}" --loader EFI/Arch/${KERNEL}.efi --verbose
+efibootmgr --create --disk ${DISK} --part 1 --label "Arch${KERNEL}-fallback" --loader EFI/Arch/${KERNEL}-fallback.efi --verbose
 echo -e "All set!"
 
 echo -ne "
