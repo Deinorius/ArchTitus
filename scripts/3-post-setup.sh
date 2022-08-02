@@ -106,7 +106,6 @@ if [[ ${DESKTOP_ENV} == "kde" ]]; then
     cp -r $HOME/ArchTitus/config/yakuake-skin/ /home/$USERNAME/.local/share/yakuake/kns_skins/BreezeDarkCompact/
     sed -i 's/^Skin=/Skin=BreezeDarkCompact/' /home/$USERNAME/.config/yakuakerc
   done
-  fi
   
 elif [[ "${DESKTOP_ENV}" == "gnome" ]]; then
   systemctl enable gdm.service
