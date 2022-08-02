@@ -39,7 +39,7 @@ do
 done
 
 
-if [[ ! $AUR_HELPER == pamac ]]; then
+if [[ $AUR_HELPER == pamac ]]; then
   cd ~
   git clone "https://gitlab.manjaro.org/applications/$AUR_HELPER"
   cd ~/$AUR_HELPER
@@ -61,7 +61,7 @@ if [[ ! $AUR_HELPER == pamac ]]; then
   done
 fi
 
-if [[ ! $AUR_HELPER == none || ! $AUR_HELPER == pamac]]; then
+if [[ ! $AUR_HELPER == none || ! $AUR_HELPER == pamac ]]; then
   cd ~
   git clone "https://aur.archlinux.org/$AUR_HELPER.git"
   cd ~/$AUR_HELPER
