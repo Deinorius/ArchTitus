@@ -17,6 +17,7 @@ echo -ne "
 -------------------------------------------------------------------------
 
 Final Setup and Configurations
+"
 
 if [[ "${FS}" == "luks" || "${FS}" == "btrfs" ]]; then
 sed -i '14 s/.*/BINARIES=(btrfs)/' /etc/mkinitcpio.conf
