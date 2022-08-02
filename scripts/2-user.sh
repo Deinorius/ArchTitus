@@ -40,14 +40,14 @@ done
 
 
 if [[ $AUR_HELPER == pamac ]]; then
+  sudo pacman -S --noconfirm --needed meson vala libhandy asciidoc
   cd ~
   git clone "https://gitlab.manjaro.org/applications/$AUR_HELPER"
   cd ~/$AUR_HELPER
-  pacman -S --noconfirm --needed meson vala libhandy asciidoc
   meson setup --prefix=/usr --sysconfdir=/etc --buildtype=release ~/$AUR_HELPER
   meson compile
   meson install
-  pacman -Rs --noconfirm --needed meson vala asciidoc
+  sudo pacman -Rs --noconfirm meson vala asciidoc
   # sed $INSTALL_TYPE is using install type to check for MINIMAL installation, if it's true, stop
   # stop the script and move on, not installing any more packages below that line
   sed -n '/'$INSTALL_TYPE'/q;p' ~/ArchTitus/pkg-files/aur-pkgs.txt | while read line
