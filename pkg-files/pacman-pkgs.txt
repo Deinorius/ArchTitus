@@ -9,7 +9,6 @@ alsa-utils
 alsa-plugins
 binutils
 dosfstools
-flatpak
 linux-headers
 noto-fonts
 noto-fonts-emoji
@@ -46,6 +45,7 @@ egl-wayland
 exfat-utils
 firefox
 firefox-i18n-de
+flatpak
 #fuse2
 #fuse3
 #fuseiso
