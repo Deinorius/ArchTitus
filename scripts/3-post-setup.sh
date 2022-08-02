@@ -96,8 +96,17 @@ if [[ ${DESKTOP_ENV} == "kde" ]]; then
   echo "[THEME]" >> /etc/sddm.conf.d/default.conf
   echo "Current=breeze" >> /etc/sddm.conf.d/default.conf
   systemctl enable sddm.service
+  sed -n '/'$INSTALL_TYPE'/q;p' $HOME/ArchTitus/pkg-files/kde.txt | while read line
+  do
+    if [[ ${line} == '--END OF MINIMAL INSTALL--' ]]; then
+      # If selected installation type is FULL, skip the --END OF THE MINIMAL INSTALLATION-- line
+      continue
+    fi
+    cp -r $HOME/ArchTitus/config/yakuake-skin/ /home/$USERNAME/.local/share/yakuake/kns_skins/BreezeDarkCompact/
+    sed -i 's/^Skin=/Skin=BreezeDarkCompact/' /home/$USERNAME/.config/yakuakerc
+  done
   fi
-
+  
 elif [[ "${DESKTOP_ENV}" == "gnome" ]]; then
   systemctl enable gdm.service
 
@@ -140,6 +149,8 @@ systemctl enable bluetooth
 echo "  Bluetooth enabled"
 systemctl enable avahi-daemon.service
 echo "  Avahi enabled"
+systemctl enable --now reflector.timer
+echo "  Auto update mirros enabled - reflector"
 
 echo -ne "
 -------------------------------------------------------------------------
@@ -161,7 +172,9 @@ echo -e "\
 echo "  Set Vim tweaks - Syntax highlighting, number lines, etc"
 sysctl vm.swappiness=10
 echo "vm.swappiness=10" >> /etc/sysctl.conf
-echo " Set system to a lower swappiness with value 10"
+echo "  Set system to a lower swappiness with value 10"
+localectl set-x11-keymap $KEYMAP
+echo "  Set X.org keymap layout"
 
 
 echo -ne "
