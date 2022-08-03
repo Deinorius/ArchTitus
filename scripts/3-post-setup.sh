@@ -57,20 +57,20 @@ echo -e "Creating /EFI/Arch folder"
 mkdir -p /efi/EFI/Arch
 
 echo -e "Editing mkinitcpio.conf..."
-sed -i 's/#default_options=""/default_efi_image="\/efi\/EFI\/Arch\/${KERNEL}.efi"\ndefault_options="--splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/${KERNEL}.preset
-sed -i 's/fallback_options="-S autodetect"/fallback_efi_image="\/efi\/EFI\/Arch\/${KERNEL}-fallback.efi"\nfallback_options="-S autodetect --splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp"/' /etc/mkinitcpio.d/${KERNEL}.preset
+sed -i "s/#default_options=""""/default_efi_image=""\/efi\/EFI\/Arch\/${KERNEL}.efi""\ndefault_options=""--splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp""/" /etc/mkinitcpio.d/${KERNEL}.preset
+sed -i "s/fallback_options=""-S autodetect""/fallback_efi_image=""\/efi\/EFI\/Arch\/${KERNEL}-fallback.efi""\nfallback_options=""-S autodetect --splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp""/" /etc/mkinitcpio.d/${KERNEL}.preset
 
 echo -e "Kernel command line..."
 
 if [[ "${FS}" == "luks" ]]; then
     sed -i 's/HOOKS=(base systemd \(.*block\) /&sd-encrypt/' /etc/mkinitcpio.conf # create sd-encrypt after block hook
-    LUKS_NAME="blkid -o value -s UUID ${DISK}"
-    echo "rd.luks.name=$LUKS_NAME=cryptroot rootflags=subvol=@ root=${DISK} rw bgrt_disable" >> /etc/kernel/cmdline
+    DISK_UUID=$(blkid -o value -s UUID ${DISK})
+    echo "rd.luks.name=${DISK_UUID}=cryptroot rootflags=subvol=@ root=${DISK} rw bgrt_disable" >> /etc/kernel/cmdline
 fi
 
 if [[ "${FS}" == "btrfs" ]]; then
-    LUKS_NAME="blkid -o value -s UUID ${DISK}"
-    echo "rootflags=subvol=@ root=$LUKS_NAME rw bgrt_disable" > /etc/kernel/cmdline
+    DISK_UUID=$(blkid -o value -s UUID ${DISK})
+    echo "rootflags=subvol=@ root=${DISK_UUID} rw bgrt_disable" > /etc/kernel/cmdline
 fi
 
 echo -e "Regenerate the initramfs"
@@ -81,8 +81,8 @@ echo -ne "
                Creating UEFI boot entries for the .efi files
 -------------------------------------------------------------------------
 "
-efibootmgr --create --disk ${DISK} --part 1 --label "Arch$KERNEL" --loader EFI/Arch/$KERNEL.efi --verbose
-efibootmgr --create --disk ${DISK} --part 1 --label "Arch$KERNEL-fallback" --loader EFI/Arch/$KERNEL-fallback.efi --verbose
+efibootmgr --create --disk ${DISK} --part 1 --label "Arch${KERNEL}" --loader EFI/Arch/${KERNEL}.efi --verbose
+efibootmgr --create --disk ${DISK} --part 1 --label "Arch${KERNEL}-fallback" --loader EFI/Arch/${KERNEL}-fallback.efi --verbose
 echo -e "All set!"
 
 echo -ne "
@@ -103,7 +103,9 @@ if [[ ${DESKTOP_ENV} == "kde" ]]; then
       # If selected installation type is FULL, skip the --END OF THE MINIMAL INSTALLATION-- line
       continue
     fi
+    mkdir -p /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
     cp -r ${HOME}/ArchTitus/configs/yakuake-skin/ /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
+    mkdir -p /home/${USERNAME}/.configs/
     sed -i 's/^Skin=/Skin=BreezeDarkCompact/' /home/${USERNAME}/.configs/yakuakerc
   done
   
@@ -172,12 +174,12 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 if [[ ${SHELL} == "bash" ]]; then
-   cp -rfv ${HOME}/ArchTitus/configs/etc/skel/bashrc /etc/skel/.bashrc
-   cp -rfv ${HOME}/ArchTitus/configs/etc/bashrc /home/${USERNAME}/fancy-bash-prompt.bashrc
+   cp -Tfv ${HOME}/ArchTitus/configs/etc/skel/bashrc /etc/skel/.bashrc
+   cp -Tfv ${HOME}/ArchTitus/configs/etc/bashrc /home/${USERNAME}/fancy-bash-prompt.bashrc
 fi
 
 if [[ ${SHELL} == "zsh" ]]; then
-   pacman -S --noconfirm --needed zsh zsh-autosuggestions zsh-completions zsh-history-substring-search zsh-syntax-highlighting zsh-powerlevel10k nerd-fonts-noto-sans-mono grml-zsh-config
+   sudo pacman -S --noconfirm --needed zsh zsh-autosuggestions zsh-completions zsh-history-substring-search zsh-syntax-highlighting zsh-powerlevel10k nerd-fonts-noto-sans-mono grml-zsh-config
    chsh -s $/usr/bin/zsh
    #git clone https://github.com/Chrysostomus/manjaro-zsh-config
    #no idea, what to do next
