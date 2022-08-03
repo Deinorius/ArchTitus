@@ -29,12 +29,13 @@ sudo cp -Tfv ${HOME}/ArchTitus/configs/etc/skel/bashrc /etc/skel/.bashrc
 cp -Tfv ${HOME}/ArchTitus/configs/bashrc /home/${USERNAME}/fancy-bash-prompt.bashrc
 
 if [[ ${SHELL} == "zsh" ]]; then
+   cd ~
    sudo pacman -S --noconfirm --needed zsh zsh-autosuggestions zsh-completions zsh-history-substring-search zsh-syntax-highlighting zsh-theme-powerlevel10k
    git clone https://aur.archlinux.org/nerd-fonts-noto-sans-mono.git && cd nerd-fonts-noto-sans-mono && makepkg -si --noconfirm
-   cd /home/$USERNAME && rm -r nerd-fonts-noto-sans-mono
+   cd ~ && rm -r nerd-fonts-noto-sans-mono
    git clone https://github.com/Deinorius/deino-zshconf && cd deino-zshconf && makepkg -si --noconfirm
-   cd /home/$USERNAME && rm -r deino-zshconf
-   chsh -s $/bin/zsh
+   cd ~ && rm -r deino-zshconf
+   sudo chsh -s $/bin/zsh
 
 elif [[ ${SHELL} == "zsh-Titusprofile" ]]; then
    cd ~
