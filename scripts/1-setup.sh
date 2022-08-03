@@ -188,22 +188,15 @@ if [ $(whoami) = "root"  ]; then
     echo "ArchTitus copied to home directory"
 
 # enter hosts and $NAME_OF_MACHINE to /etc/hosts
-	echo -e "\
-	127.0.0.1\tlocalhost\n\
-	::1\tlocalhost\n\
-	127.0.1.1\tmyHostname" >> /etc/hosts
+echo -e "\
+127.0.0.1\tlocalhost\n\
+::1\tlocalhost\n\
+127.0.1.1\tmyHostname" >> /etc/hosts
 	
 # enter $NAME_OF_MACHINE to /etc/hostname
-	echo $NAME_OF_MACHINE > /etc/hostname
+echo $NAME_OF_MACHINE > /etc/hostname
 else
-	echo "You are already a user proceed with aur installs"
-fi
-if [[ ${FS} == "luks" ]]; then
-# Making sure to edit mkinitcpio conf if luks is selected
-# add encrypt in mkinitcpio.conf before filesystems in hooks
-    sed -i 's/filesystems/encrypt filesystems/g' /etc/mkinitcpio.conf
-# making mkinitcpio with linux kernel
-    mkinitcpio -p linux
+echo "You are already a user proceed with aur installs"
 fi
 echo -ne "
 -------------------------------------------------------------------------
