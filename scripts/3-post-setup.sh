@@ -93,7 +93,7 @@ echo -ne "
 if [[ ${DESKTOP_ENV} == "kde" ]]; then
   echo [Theme] >>  /etc/sddm.conf
   echo Current=Breeze >> /etc/sddm.conf
-  cp -r /usr/lib/sddm/sddm.conf.d /etc/
+  cp /usr/lib/sddm/sddm.conf.d/default.conf /etc/sddm.conf.d/default.conf
   sed -i 's/^Current=/Current=breeze/' > /etc/sddm.conf.d/default.conf
   systemctl enable sddm.service
   
