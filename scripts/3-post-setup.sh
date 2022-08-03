@@ -49,7 +49,7 @@ echo -ne "
 if [[ "${DISK}" == *"/dev/vd"* ]]; then
     sed -i '7 s/.*/MODULES=(virtio virtio_blk virtio_pci virtio_net)/' /etc/mkinitcpio.conf
     sudo pacman -S --noconfirm qemu-guest-agent;
-    sudo systemctl enable qemu-guest-agent.service
+    systemctl enable qemu-guest-agent.service
 fi
 # Editing mkinitcpio configuration for unified kernel image
 
@@ -93,7 +93,7 @@ echo -ne "
 if [[ ${DESKTOP_ENV} == "kde" ]]; then
   echo [Theme] >>  /etc/sddm.conf
   echo Current=Breeze >> /etc/sddm.conf
-  cp -r /usr/lib/sddm/sddm.conf.d/ /etc/
+  cp -r /usr/lib/sddm/sddm.conf.d /etc/
   sed -i 's/^Current=/Current=breeze/' > /etc/sddm.conf.d/default.conf
   systemctl enable sddm.service
   
@@ -150,29 +150,10 @@ echo -ne "
 echo -e '"Syntax highlighting\nsyntax on\n"Number lines\nset number\n"Autocomplete\nset wildmenu\n"Highlight matching brackets\nset showmatch\n"Search tweaks\nset incsearch\nset hlsearch' > /etc/vimrc
 echo "  Set Vim tweaks - Syntax highlighting, number lines, etc"
 sysctl vm.swappiness=10
-echo "vm.swappiness=10" >> /etc/sysctl.conf
+echo "vm.swappiness=10" > /etc/sysctl.d/99-swappiness.conf
 echo "  Set system to a lower swappiness with value 10"
 localectl set-keymap ${KEYMAP}
 echo "  Set X.org keymap layout"
-
-
-echo -ne "
--------------------------------------------------------------------------
-                    bash/zsh: Setting all plugins
--------------------------------------------------------------------------
-"
-if [[ ${SHELL} == "bash" ]]; then
-   #cp -Tfv ${HOME}/ArchTitus/configs/etc/skel/bashrc /etc/skel/.bashrc
-   #cp -Tfv ${HOME}/ArchTitus/configs/etc/bashrc /home/${USERNAME}/fancy-bash-prompt.bashrc
-fi
-
-if [[ ${SHELL} == "zsh" ]]; then
-   sudo pacman -S --noconfirm --needed zsh zsh-autosuggestions zsh-completions zsh-history-substring-search zsh-syntax-highlighting zsh-powerlevel10k nerd-fonts-noto-sans-mono grml-zsh-config
-   chsh -s $/usr/bin/zsh
-   #git clone https://github.com/Chrysostomus/manjaro-zsh-config
-   #no idea, what to do next
-fi
-
 
 echo -ne "
 -------------------------------------------------------------------------
