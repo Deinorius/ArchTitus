@@ -20,12 +20,29 @@ Installing AUR Softwares
 "
 source $HOME/ArchTitus/configs/setup.conf
 
-  cd ~
-  mkdir "/home/$USERNAME/.cache"
-  touch "/home/$USERNAME/.cache/zshhistory"
-  git clone "https://github.com/ChrisTitusTech/zsh"
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
-  ln -s "~/zsh/.zshrc" ~/.zshrc
+echo -ne "
+-------------------------------------------------------------------------
+                    bash/zsh: Setting all plugins
+-------------------------------------------------------------------------
+"
+cp -Tfv ${HOME}/ArchTitus/configs/etc/skel/bashrc /etc/skel/.bashrc
+cp -Tfv ${HOME}/ArchTitus/configs/bashrc /home/${USERNAME}/fancy-bash-prompt.bashrc
+
+if [[ ${SHELL} == "zsh" ]]; then
+   sudo pacman -S --noconfirm --needed zsh zsh-autosuggestions zsh-completions zsh-history-substring-search zsh-syntax-highlighting zsh-powerlevel10k
+   git clone http://aur.archlinux.org/nerd-fonts-noto-sans-mono.git && cd nerd-fonts-noto-sans-mono && makepkg -si --noconfirm
+   cd .. && rm -r nerd-fonts-noto-sans-mono
+   git clone http://github.com/Deinorius/deino-zshconf && cd deino-zshconf && mapkg -si --noconfirm
+   chsh -s $/bin/zsh
+
+elif [[ ${SHELL} == "zsh-Titusprofile" ]]; then
+   cd ~
+   mkdir "/home/$USERNAME/.cache"
+   touch "/home/$USERNAME/.cache/zshhistory"
+   git clone "https://github.com/ChrisTitusTech/zsh"
+   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+   ln -s "~/zsh/.zshrc" ~/.zshrc
+fi
 
 sed -n '/'$INSTALL_TYPE'/q;p' ~/ArchTitus/pkg-files/${DESKTOP_ENV}.txt | while read line
 do
@@ -83,19 +100,19 @@ fi
 export PATH=$PATH:~/.local/bin
 
 # Theming DE if user chose FULL installation
-if [[ $INSTALL_TYPE == "FULL" ]]; then
-  if [[ $DESKTOP_ENV == "kde" ]]; then
-    cp -r ~/ArchTitus/configs/.config/* ~/.config/
-    pip install konsave
-    konsave -i ~/ArchTitus/configs/kde.knsv
-    sleep 1
-    konsave -a kde
-  elif [[ $DESKTOP_ENV == "openbox" ]]; then
-    cd ~
-    git clone https://github.com/stojshic/dotfiles-openbox
-    ./dotfiles-openbox/install-titus.sh
-  fi
+if [[ $DESKTOP_ENV == "kde" ]]; then
+  cp -r ~/ArchTitus/configs/.config/* ~/.config/
+  git clone https://aur.archlinux.org/konsave.git
+  cd /home/$USERNAME/konsave && makepkg -si --noconfirm
+  konsave -i ~/ArchTitus/configs/kde.knsv
+  sleep 1
+  konsave -a kde
+elif [[ $DESKTOP_ENV == "openbox" ]]; then
+  cd ~
+  git clone https://github.com/stojshic/dotfiles-openbox
+  ./dotfiles-openbox/install-titus.sh
 fi
+
 
 echo -ne "
 -------------------------------------------------------------------------
