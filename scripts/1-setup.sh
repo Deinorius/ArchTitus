@@ -65,7 +65,7 @@ systemctl enable systemd-timesyncd.service
 # Set keymaps
 localectl --no-ask-password set-keymap ${KEYMAP}
 echo KEYMAP=${KEYMAP} > /etc/vconsole.conf
-#echo LANG=en_US.UTF-8 > /etc/locale.conf
+echo LANG=en_US.UTF-8 > /etc/locale.conf
 # Add sudo no password rights
 sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
 sed -i 's/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
@@ -175,8 +175,9 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 if [ $(whoami) = "root"  ]; then
+    groupadd gamemode
     groupadd libvirt
-    useradd -m -G wheel,games,ftp,http,audio,libvirt -s /bin/bash $USERNAME 
+    useradd -m -G wheel,games,gamemode,ftp,http,audio,libvirt -s /bin/bash $USERNAME 
     echo "$USERNAME created, home directory created, added to wheel and libvirt group and more, default shell set to /bin/bash"
 
 # use chpasswd to enter $USERNAME:$password
