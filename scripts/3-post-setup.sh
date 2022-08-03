@@ -70,7 +70,7 @@ fi
 
 if [[ "${FS}" == "btrfs" ]]; then
     DISK_UUID=$(blkid -o value -s UUID ${DISK}2)
-    echo "rootflags=subvol=@ root=${DISK_UUID} rw bgrt_disable" > /etc/kernel/cmdline
+    echo "rootflags=subvol=@ root=UUID=${DISK_UUID} rw bgrt_disable" > /etc/kernel/cmdline
 fi
 
 echo -e "Regenerate the initramfs"
