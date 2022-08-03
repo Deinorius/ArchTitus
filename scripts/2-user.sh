@@ -29,10 +29,11 @@ cp -Tfv ${HOME}/ArchTitus/configs/etc/skel/bashrc /etc/skel/.bashrc
 cp -Tfv ${HOME}/ArchTitus/configs/bashrc /home/${USERNAME}/fancy-bash-prompt.bashrc
 
 if [[ ${SHELL} == "zsh" ]]; then
-   sudo pacman -S --noconfirm --needed zsh zsh-autosuggestions zsh-completions zsh-history-substring-search zsh-syntax-highlighting zsh-powerlevel10k
-   git clone http://aur.archlinux.org/nerd-fonts-noto-sans-mono.git && cd nerd-fonts-noto-sans-mono && makepkg -si --noconfirm
-   cd .. && rm -r nerd-fonts-noto-sans-mono
-   git clone http://github.com/Deinorius/deino-zshconf && cd deino-zshconf && mapkg -si --noconfirm
+   sudo pacman -S --noconfirm --needed zsh zsh-autosuggestions zsh-completions zsh-history-substring-search zsh-syntax-highlighting zsh-theme-powerlevel10k
+   git clone https://aur.archlinux.org/nerd-fonts-noto-sans-mono.git && cd nerd-fonts-noto-sans-mono && makepkg -si --noconfirm
+   cd /home/$USERNAME && rm -r nerd-fonts-noto-sans-mono
+   git clone https://github.com/Deinorius/deino-zshconf && cd deino-zshconf && makepkg -si --noconfirm
+   cd /home/$USERNAME && rm -r deino-zshconf
    chsh -s $/bin/zsh
 
 elif [[ ${SHELL} == "zsh-Titusprofile" ]]; then
@@ -103,7 +104,7 @@ export PATH=$PATH:~/.local/bin
 if [[ $DESKTOP_ENV == "kde" ]]; then
   cp -r ~/ArchTitus/configs/.config/* ~/.config/
   git clone https://aur.archlinux.org/konsave.git
-  cd /home/$USERNAME/konsave && makepkg -si --noconfirm
+  cd konsave && makepkg -si --noconfirm
   konsave -i ~/ArchTitus/configs/kde.knsv
   sleep 1
   konsave -a kde
