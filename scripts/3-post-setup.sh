@@ -65,7 +65,7 @@ echo -e "Kernel command line..."
 if [[ "${FS}" == "luks" ]]; then
     sed -i 's/HOOKS=(base systemd \(.*block\) /&sd-encrypt/' /etc/mkinitcpio.conf # create sd-encrypt after block hook
     DISK_UUID=$(blkid -o value -s UUID ${DISK}2)
-    echo "rd.luks.name=${DISK_UUID}=cryptroot rootflags=subvol=@ root=${DISK} rw bgrt_disable" >> /etc/kernel/cmdline
+    echo "rd.luks.name=${DISK_UUID}=cryptroot rootflags=subvol=@ root=${DISK} rw bgrt_disable" > /etc/kernel/cmdline
 fi
 
 if [[ "${FS}" == "btrfs" ]]; then
