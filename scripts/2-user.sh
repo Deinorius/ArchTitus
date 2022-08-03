@@ -25,7 +25,7 @@ echo -ne "
                     bash/zsh: Setting all plugins
 -------------------------------------------------------------------------
 "
-cp -Tfv ${HOME}/ArchTitus/configs/etc/skel/bashrc /etc/skel/.bashrc
+sudo cp -Tfv ${HOME}/ArchTitus/configs/etc/skel/bashrc /etc/skel/.bashrc
 cp -Tfv ${HOME}/ArchTitus/configs/bashrc /home/${USERNAME}/fancy-bash-prompt.bashrc
 
 if [[ ${SHELL} == "zsh" ]]; then
@@ -103,6 +103,7 @@ export PATH=$PATH:~/.local/bin
 # Theming DE if user chose FULL installation
 if [[ $DESKTOP_ENV == "kde" ]]; then
   cp -r ~/ArchTitus/configs/.config/* ~/.config/
+  cd ~
   git clone https://aur.archlinux.org/konsave.git
   cd konsave && makepkg -si --noconfirm
   konsave -i ~/ArchTitus/configs/kde.knsv
