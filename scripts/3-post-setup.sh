@@ -94,20 +94,8 @@ if [[ ${DESKTOP_ENV} == "kde" ]]; then
   echo [Theme] >>  /etc/sddm.conf
   echo Current=Breeze >> /etc/sddm.conf
   cp -r /usr/lib/sddm/sddm.conf.d/ /etc/
-  echo "[THEME]" >> /etc/sddm.conf.d/default.conf
-  echo "Current=breeze" >> /etc/sddm.conf.d/default.conf
+  sed -i 's/^Current=/Current=breeze/' > /etc/sddm.conf.d/default.conf
   systemctl enable sddm.service
-  sed -n '/'$INSTALL_TYPE'/q;p' $HOME/ArchTitus/pkg-files/kde.txt | while read line
-  do
-    if [[ ${line} == '--END OF MINIMAL INSTALL--' ]]; then
-      # If selected installation type is FULL, skip the --END OF THE MINIMAL INSTALLATION-- line
-      continue
-    fi
-    mkdir -p /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
-    cp -r ${HOME}/ArchTitus/configs/yakuake-skin/* /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
-    mkdir -p /home/${USERNAME}/.config/
-    sed -i 's/^Skin=/Skin=BreezeDarkCompact/' /home/${USERNAME}/.config/yakuakerc
-  done
   
 elif [[ "${DESKTOP_ENV}" == "gnome" ]]; then
   systemctl enable gdm.service
@@ -164,7 +152,7 @@ echo "  Set Vim tweaks - Syntax highlighting, number lines, etc"
 sysctl vm.swappiness=10
 echo "vm.swappiness=10" >> /etc/sysctl.conf
 echo "  Set system to a lower swappiness with value 10"
-#localectl set-x11-keymap ${KEYMAP}
+localectl set-keymap ${KEYMAP}
 echo "  Set X.org keymap layout"
 
 
@@ -174,8 +162,8 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 if [[ ${SHELL} == "bash" ]]; then
-   cp -Tfv ${HOME}/ArchTitus/configs/etc/skel/bashrc /etc/skel/.bashrc
-   cp -Tfv ${HOME}/ArchTitus/configs/etc/bashrc /home/${USERNAME}/fancy-bash-prompt.bashrc
+   #cp -Tfv ${HOME}/ArchTitus/configs/etc/skel/bashrc /etc/skel/.bashrc
+   #cp -Tfv ${HOME}/ArchTitus/configs/etc/bashrc /home/${USERNAME}/fancy-bash-prompt.bashrc
 fi
 
 if [[ ${SHELL} == "zsh" ]]; then
