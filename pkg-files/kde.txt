@@ -8,6 +8,7 @@ dolphin
 kde-gtk-config
 konsole
 plasma-wayland-session
+xdg-desktop-portal-kde
 yakuake
 --END OF MINIMAL INSTALL--
 audiocd-kio
@@ -39,6 +40,5 @@ powerdevil
 #print-manager
 qt5-imageformats
 spectacle
-xdg-desktop-portal-kde
 yakuake
 zeroconf-ioslave
