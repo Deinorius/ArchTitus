@@ -62,14 +62,13 @@ sed -i "s/fallback_options=\"-S autodetect\"/fallback_efi_image=\"\/efi\/EFI\/Ar
 
 echo -e "Kernel command line..."
 
+DISK_UUID=$(blkid -o value -s UUID ${DISK}2)
 if [[ "${FS}" == "luks" ]]; then
     sed -i 's/HOOKS=(base systemd \(.*block\) /&sd-encrypt/' /etc/mkinitcpio.conf # create sd-encrypt after block hook
-    DISK_UUID=$(blkid -o value -s UUID ${DISK}2)
     echo "rd.luks.name=${DISK_UUID}=cryptroot rootflags=subvol=@ root=${DISK} rw bgrt_disable" > /etc/kernel/cmdline
 fi
 
 if [[ "${FS}" == "btrfs" ]]; then
-    DISK_UUID=$(blkid -o value -s UUID ${DISK}2)
     echo "rootflags=subvol=@ root=UUID=${DISK_UUID} rw bgrt_disable" > /etc/kernel/cmdline
 fi
 
@@ -93,7 +92,7 @@ echo -ne "
 if [[ ${DESKTOP_ENV} == "kde" ]]; then
   echo [Theme] >>  /etc/sddm.conf
   echo Current=Breeze >> /etc/sddm.conf
-  cp /usr/lib/sddm/sddm.conf.d/default.conf /etc/sddm.conf.d/default.conf
+  sudo cp -r /usr/lib/sddm/sddm.conf.d/ /etc/
   sed -i 's/^Current=/Current=breeze/' > /etc/sddm.conf.d/default.conf
   systemctl enable sddm.service
   
@@ -152,7 +151,7 @@ echo "  Set Vim tweaks - Syntax highlighting, number lines, etc"
 sysctl vm.swappiness=10
 echo "vm.swappiness=10" > /etc/sysctl.d/99-swappiness.conf
 echo "  Set system to a lower swappiness with value 10"
-localectl set-keymap ${KEYMAP}
+sudo localectl set-x11-keymap ${KEYMAP}
 echo "  Set X.org keymap layout"
 
 echo -ne "
@@ -167,8 +166,8 @@ sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL/# %wheel ALL=(ALL:ALL) NOPASSWD: A
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
-rm -r $HOME/ArchTitus
-rm -r /home/${USERNAME}/ArchTitus
+#rm -r $HOME/ArchTitus
+#rm -r /home/${USERNAME}/ArchTitus
 
 # Replace in the same state
 cd $pwd
