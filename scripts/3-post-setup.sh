@@ -57,19 +57,19 @@ echo -e "Creating /EFI/Arch folder"
 mkdir -p /efi/EFI/Arch
 
 echo -e "Editing mkinitcpio.conf..."
-sed -i "s/#default_options=""""/default_efi_image=""\/efi\/EFI\/Arch\/${KERNEL}.efi""\ndefault_options=""--splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp""/" /etc/mkinitcpio.d/${KERNEL}.preset
-sed -i "s/fallback_options=""-S autodetect""/fallback_efi_image=""\/efi\/EFI\/Arch\/${KERNEL}-fallback.efi""\nfallback_options=""-S autodetect --splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp""/" /etc/mkinitcpio.d/${KERNEL}.preset
+sed -i "s/#default_options=\"\"/default_efi_image=\"\/efi\/EFI\/Arch\/${KERNEL}.efi\"\ndefault_options=\"--splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp\"/" /etc/mkinitcpio.d/${KERNEL}.preset
+sed -i "s/fallback_options=\"-S autodetect\"/fallback_efi_image=\"\/efi\/EFI\/Arch\/${KERNEL}-fallback.efi\"\nfallback_options=\"-S autodetect --splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp\"/" /etc/mkinitcpio.d/${KERNEL}.preset
 
 echo -e "Kernel command line..."
 
 if [[ "${FS}" == "luks" ]]; then
     sed -i 's/HOOKS=(base systemd \(.*block\) /&sd-encrypt/' /etc/mkinitcpio.conf # create sd-encrypt after block hook
-    DISK_UUID=$(blkid -o value -s UUID ${DISK})
+    DISK_UUID=$(blkid -o value -s UUID ${DISK}2)
     echo "rd.luks.name=${DISK_UUID}=cryptroot rootflags=subvol=@ root=${DISK} rw bgrt_disable" >> /etc/kernel/cmdline
 fi
 
 if [[ "${FS}" == "btrfs" ]]; then
-    DISK_UUID=$(blkid -o value -s UUID ${DISK})
+    DISK_UUID=$(blkid -o value -s UUID ${DISK}2)
     echo "rootflags=subvol=@ root=${DISK_UUID} rw bgrt_disable" > /etc/kernel/cmdline
 fi
 
