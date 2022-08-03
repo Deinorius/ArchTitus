@@ -104,9 +104,9 @@ if [[ ${DESKTOP_ENV} == "kde" ]]; then
       continue
     fi
     mkdir -p /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
-    cp -r ${HOME}/ArchTitus/configs/yakuake-skin/ /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
-    mkdir -p /home/${USERNAME}/.configs/
-    sed -i 's/^Skin=/Skin=BreezeDarkCompact/' /home/${USERNAME}/.configs/yakuakerc
+    cp -r ${HOME}/ArchTitus/configs/yakuake-skin/* /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
+    mkdir -p /home/${USERNAME}/.config/
+    sed -i 's/^Skin=/Skin=BreezeDarkCompact/' /home/${USERNAME}/.config/yakuakerc
   done
   
 elif [[ "${DESKTOP_ENV}" == "gnome" ]]; then
