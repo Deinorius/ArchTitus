@@ -92,7 +92,8 @@ echo -ne "
 if [[ ${DESKTOP_ENV} == "kde" ]]; then
   echo [Theme] >>  /etc/sddm.conf
   echo Current=Breeze >> /etc/sddm.conf
-  sudo cp -r /usr/lib/sddm/sddm.conf.d/ /etc/
+  mkdir -p /etc/sddm.conf.d/
+  sudo cp /usr/lib/sddm/sddm.conf.d/default.conf /etc/sddm.conf.d/
   sed -i 's/^Current=/Current=breeze/' > /etc/sddm.conf.d/default.conf
   systemctl enable sddm.service
   
@@ -151,7 +152,12 @@ echo "  Set Vim tweaks - Syntax highlighting, number lines, etc"
 sysctl vm.swappiness=10
 echo "vm.swappiness=10" > /etc/sysctl.d/99-swappiness.conf
 echo "  Set system to a lower swappiness with value 10"
-sudo localectl set-x11-keymap ${KEYMAP}
+ATLOCALE=$(cat /etc/locale.gen | grep -i '#de_AT.UTF-8')
+if [[ ! "${ATLOCALE}" == "de_AT.UTF-8" ]]; then
+   sudo localectl set-x11-keymap at
+   else
+   sudo localectl set-x11-keymap ${KEYMAP}
+fi
 echo "  Set X.org keymap layout"
 
 echo -ne "
