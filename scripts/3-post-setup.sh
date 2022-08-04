@@ -142,6 +142,7 @@ echo "  Avahi enabled"
 systemctl enable reflector.timer
 echo "  Auto update mirros enabled - reflector"
 
+    
 echo -ne "
 -------------------------------------------------------------------------
                     Setting custom tweaks
@@ -149,9 +150,37 @@ echo -ne "
 "
 echo -e '"Syntax highlighting\nsyntax on\n"Number lines\nset number\n"Autocomplete\nset wildmenu\n"Highlight matching brackets\nset showmatch\n"Search tweaks\nset incsearch\nset hlsearch' > /etc/vimrc
 echo "  Set Vim tweaks - Syntax highlighting, number lines, etc"
+
 sysctl vm.swappiness=10
 echo "vm.swappiness=10" > /etc/sysctl.d/99-swappiness.conf
 echo "  Set system to a lower swappiness with value 10"
+
+mkdir -p /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
+chown -R $USERNAME: /home/$USERNAME/.local/share/yakuake/kns_skins/BreezeDarkCompact/
+cp -r ${HOME}/ArchTitus/configs/yakuake-skin/ /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
+mkdir -p /home/${USERNAME}/.config/
+#chown -R $USERNAME: /home/$USERNAME/.config
+sed -i 's/^Skin=/Skin=BreezeDarkCompact/' /home/${USERNAME}/.config/yakuakerc
+mkdir -p /home/$USERNAME/.config/autostart
+chown -R $USERNAME: /home/$USERNAME/.config/autostart
+echo -e " \
+[Desktop Entry]\n\
+Name=Yakuake\n\
+Name[de]=Yakuake\n\
+GenericName=Drop-down Terminal\n\
+GenericName[de]=Aufklapp-Terminal\n\
+Exec=yakuake\n\
+Icon=yakuake\n\
+Type=Application\n\
+Terminal=false\n\
+Categories=Qt;KDE;System;TerminalEmulator;\n\
+Comment=A drop-down terminal emulator based on KDE Konsole technology.\n\
+Comment[de]=Ein Aufklapp-Terminalemulator basierend auf der KDE-Konsole.\n\
+X-DBUS-StartupType=Unique\n\
+X-KDE-StartupNotify=false\n\
+X-DBUS-ServiceName=org.kde.yakuake" > /home/$USERNAME/.config/autostart/org.kde.yakuake.desktop
+echo -e "  Set Breeze Dark Compact skin & autostart for Yakuake"
+
 ATLOCALE=$(cat /etc/locale.gen | grep -i '#de_AT.UTF-8')
 if [[ ! "${ATLOCALE}" == "de_AT.UTF-8" ]]; then
    sudo localectl set-x11-keymap at
