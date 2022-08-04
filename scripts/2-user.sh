@@ -32,11 +32,15 @@ if [[ ${SHELL} == "zsh" ]]; then
    cd ~
    sudo pacman -S --noconfirm --needed zsh zsh-autosuggestions zsh-completions zsh-history-substring-search zsh-syntax-highlighting zsh-theme-powerlevel10k
    git clone https://aur.archlinux.org/nerd-fonts-noto-sans-mono.git && cd nerd-fonts-noto-sans-mono && makepkg -si --noconfirm
-   cd ~ && rm -r nerd-fonts-noto-sans-mono
+   cd ~ && rm -rf nerd-fonts-noto-sans-mono
    git clone https://github.com/Deinorius/deino-zshconf && cd deino-zshconf && makepkg -si --noconfirm
-   cd ~ && rm -r deino-zshconf
+   cd ~ && rm -rf deino-zshconf
+   cp /etc/skel/.zshrc /home/$USERNAME/
+   sudo sed -i '2 s/required/sufficient/g' /etc/pam.d/chsh
    sudo chsh -s $/bin/zsh
-
+   chsh -s $/bin/zsh $USERNAME
+   sudo sed -i '2 s/sufficient/required/g' /etc/pam.d/chsh
+   
 elif [[ ${SHELL} == "zsh-Titusprofile" ]]; then
    cd ~
    mkdir "/home/$USERNAME/.cache"
@@ -60,14 +64,10 @@ done
 
 if [[ $AUR_HELPER == pamac ]]; then
   cd ~
-  sudo pacman -S --noconfirm --needed cmake meson vala libhandy libnotify asciidoc
   git clone https://aur.archlinux.org/archlinux-appstream-data-pamac.git && cd libpamac-nosnap && makepkg -si --noconfirm --needed && cd ~
   git clone https://aur.archlinux.org/libpamac-nosnap.git && cd libpamac-nosnap && makepkg -si --noconfirm --needed && cd ~
-  git clone https://gitlab.manjaro.org/applications/$AUR_HELPER-nosnap.git && cd libpamac-nosnap && makepkg -si --noconfirm --needed && cd ~
-  #meson setup --prefix=/usr --sysconfdir=/etc --buildtype=release ~/$AUR_HELPER-build
-  #meson compile
-  #meson install
-  sudo pacman -Rs --noconfirm cmake libnotify meson vala asciidoc
+  git clone https://aur.archlinux.org/$AUR_HELPER-nosnap.git && cd libpamac-nosnap && makepkg -si --noconfirm --needed && cd ~
+  sudo pacman -Rs --noconfirm meson vala asciidoc
   rm -rf libpamac-nosnap pamac-nosnap archlinux-appstream-data-pamac
   # sed $INSTALL_TYPE is using install type to check for MINIMAL installation, if it's true, stop
   # stop the script and move on, not installing any more packages below that line
