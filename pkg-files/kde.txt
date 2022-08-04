@@ -40,5 +40,4 @@ powerdevil
 #print-manager
 qt5-imageformats
 spectacle
-yakuake
 zeroconf-ioslave
