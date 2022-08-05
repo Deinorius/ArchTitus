@@ -36,10 +36,10 @@ if [[ ${SHELL} == "zsh" ]]; then
    git clone https://github.com/Deinorius/deino-zshconf && cd deino-zshconf && makepkg -si --noconfirm
    cd ~ && rm -rf deino-zshconf
    cp /etc/skel/.zshrc /home/$USERNAME/
-   sudo sed -i '2 s/required/sufficient/g' /etc/pam.d/chsh
+   sudo echo "auth            sufficient        pam_shells.so" >> /etc/pam.d/chsh
    sudo chsh -s $/bin/zsh
-   chsh -s $/bin/zsh $USERNAME
-   sudo sed -i '2 s/sufficient/required/g' /etc/pam.d/chsh
+   sudo chsh -s $/bin/zsh $USERNAME
+   sudo sed -i '7 s/sufficient/required/g' /etc/pam.d/chsh
    
 elif [[ ${SHELL} == "zsh-Titusprofile" ]]; then
    cd ~
@@ -64,9 +64,9 @@ done
 
 if [[ $AUR_HELPER == pamac ]]; then
   cd ~
-  git clone https://aur.archlinux.org/archlinux-appstream-data-pamac.git && cd libpamac-nosnap && makepkg -si --noconfirm --needed && cd ~
+  git clone https://aur.archlinux.org/archlinux-appstream-data-pamac.git && cd archlinux-appstream-data-pamac && makepkg -si --noconfirm --needed && cd ~
   git clone https://aur.archlinux.org/libpamac-nosnap.git && cd libpamac-nosnap && makepkg -si --noconfirm --needed && cd ~
-  git clone https://aur.archlinux.org/$AUR_HELPER-nosnap.git && cd libpamac-nosnap && makepkg -si --noconfirm --needed && cd ~
+  git clone https://aur.archlinux.org/pamac-nosnap.git && cd pamac-nosnap && makepkg -si --noconfirm --needed && cd ~
   sudo pacman -Rs --noconfirm meson vala asciidoc
   rm -rf libpamac-nosnap pamac-nosnap archlinux-appstream-data-pamac
   # sed $INSTALL_TYPE is using install type to check for MINIMAL installation, if it's true, stop
