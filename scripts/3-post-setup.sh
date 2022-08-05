@@ -155,9 +155,26 @@ echo "  Set system to a lower swappiness with value 10"
 mkdir -p /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
 cp -r ${HOME}/ArchTitus/configs/yakuake-skin/ /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
 mkdir -p /home/${USERNAME}/.config/
-sed -i 's/^Skin=/Skin=BreezeDarkCompact/' /home/${USERNAME}/.config/yakuakerc
+echo -e " \
+[Animation]\n\
+Frames=10\n\
+\n\
+[Appearance]\n\
+Skin=BreezeDarkCompact\n\
+SkinInstalledWithKns=true\n\
+Blur=true\n\
+Translucency=true\n\
+\n\
+[Dialogs]\n\
+FirstRun=false\n\
+\n\
+[Window]\n\
+Height=70\n\
+KeepAbove=false\n\
+ShowSystrayIcon=false\n\
+ToggleToFocus=true\n\
+Width=70" > /home/$USERNAME%/.config/yakuakerc
 mkdir -p /home/$USERNAME/.config/autostart
-echo "  Let autostart yakuake and set Breeze Dark Compact theme"
 echo -e " \
 [Desktop Entry]\n\
 Name=Yakuake\n\
@@ -175,6 +192,7 @@ X-DBUS-StartupType=Unique\n\
 X-KDE-StartupNotify=false\n\
 X-DBUS-ServiceName=org.kde.yakuake" > /home/$USERNAME/.config/autostart/org.kde.yakuake.desktop
 echo -e "  Set Breeze Dark Compact skin & autostart for Yakuake"
+echo "  Let autostart yakuake and set Breeze Dark Compact theme"
 sudo chown -R $USERNAME:$USERNAME /home/$USERNAME/.config /home/$USERNAME/.local
 ATLOCALE=$(cat /etc/locale.gen | grep -i '#de_AT.UTF-8')
 if [[ ! "${ATLOCALE}" == "de_AT.UTF-8" ]]; then
