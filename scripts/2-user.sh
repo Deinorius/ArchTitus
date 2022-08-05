@@ -28,20 +28,19 @@ echo -ne "
 sudo cp -Tfv ${HOME}/ArchTitus/configs/etc/skel/bashrc /etc/skel/.bashrc
 cp -Tfv ${HOME}/ArchTitus/configs/bashrc /home/${USERNAME}/fancy-bash-prompt.bashrc
 
-if [[ ${SHELL} == "zsh" ]]; then
+if [[ ${SHELL} == "zsh-manjaro" ]]; then
    cd ~
    sudo pacman -S --noconfirm --needed zsh zsh-autosuggestions zsh-completions zsh-history-substring-search zsh-syntax-highlighting zsh-theme-powerlevel10k
-   git clone https://aur.archlinux.org/nerd-fonts-noto-sans-mono.git && cd nerd-fonts-noto-sans-mono && makepkg -si --noconfirm
-   cd ~ && rm -rf nerd-fonts-noto-sans-mono
-   git clone https://github.com/Deinorius/deino-zshconf && cd deino-zshconf && makepkg -si --noconfirm
-   cd ~ && rm -rf deino-zshconf
+   git clone https://aur.archlinux.org/nerd-fonts-noto-sans-mono.git && cd nerd-fonts-noto-sans-mono && makepkg -si --noconfirm %% cd ~
+   git clone https://github.com/Deinorius/deino-zshconf && cd deino-zshconf && makepkg -si --noconfirm && cd ~
+   rm -rf deino-zshconf nerd-fonts-noto-sans-mono
    cp /etc/skel/.zshrc /home/$USERNAME/
-   sudo echo "auth            sufficient        pam_shells.so" >> /etc/pam.d/chsh
-   sudo chsh -s $/bin/zsh
-   sudo chsh -s $/bin/zsh $USERNAME
-   sudo sed -i '7 s/sufficient/required/g' /etc/pam.d/chsh
+   #sudo echo "auth            sufficient        pam_shells.so" >> /etc/pam.d/chsh
+   #sudo chsh -s $/bin/zsh
+   #sudo chsh -s $/bin/zsh $USERNAME
+   #sudo sed -i '7 s/sufficient/required/g' /etc/pam.d/chsh
    
-elif [[ ${SHELL} == "zsh-Titusprofile" ]]; then
+else [[ ${SHELL} == "zsh-Titusprofile" ]]; then
    cd ~
    mkdir "/home/$USERNAME/.cache"
    touch "/home/$USERNAME/.cache/zshhistory"
