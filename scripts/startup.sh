@@ -235,7 +235,7 @@ shell () {
 echo -ne "
 Please select desired shell with edited plugins from this list"
 # bash is most used standard, while zsh has more features. bash is sufficient.
-options=(bash zsh)
+options=(zsh-manjaro zsh-Titusprofile)
 
 select_option $? 1 "${options[@]}"
 shell=${options[$?]}
