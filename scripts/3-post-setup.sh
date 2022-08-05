@@ -90,10 +90,8 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 if [[ ${DESKTOP_ENV} == "kde" ]]; then
-  echo [Theme] >>  /etc/sddm.conf
-  echo Current=Breeze >> /etc/sddm.conf
   mkdir -p /etc/sddm.conf.d/
-  sudo cp /usr/lib/sddm/sddm.conf.d/default.conf /etc/sddm.conf.d/
+  sudo cp -R /usr/lib/sddm/sddm.conf.d/ /etc/
   sed -i 's/^Current=/Current=breeze/' > /etc/sddm.conf.d/default.conf
   systemctl enable sddm.service
   
@@ -149,20 +147,17 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 echo -e '"Syntax highlighting\nsyntax on\n"Number lines\nset number\n"Autocomplete\nset wildmenu\n"Highlight matching brackets\nset showmatch\n"Search tweaks\nset incsearch\nset hlsearch' > /etc/vimrc
-echo "  Set Vim tweaks - Syntax highlighting, number lines, etc"
-
+echo "  Activate Vim tweaks like syntax and number lines"
 sysctl vm.swappiness=10
 echo "vm.swappiness=10" > /etc/sysctl.d/99-swappiness.conf
 echo "  Set system to a lower swappiness with value 10"
 
 mkdir -p /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
-chown -R $USERNAME: /home/$USERNAME/.local/share/yakuake/kns_skins/BreezeDarkCompact/
 cp -r ${HOME}/ArchTitus/configs/yakuake-skin/ /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
 mkdir -p /home/${USERNAME}/.config/
-#chown -R $USERNAME: /home/$USERNAME/.config
 sed -i 's/^Skin=/Skin=BreezeDarkCompact/' /home/${USERNAME}/.config/yakuakerc
 mkdir -p /home/$USERNAME/.config/autostart
-chown -R $USERNAME: /home/$USERNAME/.config/autostart
+echo "  Let autostart yakuake and set Breeze Dark Compact theme"
 echo -e " \
 [Desktop Entry]\n\
 Name=Yakuake\n\
@@ -180,7 +175,7 @@ X-DBUS-StartupType=Unique\n\
 X-KDE-StartupNotify=false\n\
 X-DBUS-ServiceName=org.kde.yakuake" > /home/$USERNAME/.config/autostart/org.kde.yakuake.desktop
 echo -e "  Set Breeze Dark Compact skin & autostart for Yakuake"
-
+sudo chown -R $USERNAME:$USERNAME /home/$USERNAME/.config /home/$USERNAME/.local
 ATLOCALE=$(cat /etc/locale.gen | grep -i '#de_AT.UTF-8')
 if [[ ! "${ATLOCALE}" == "de_AT.UTF-8" ]]; then
    sudo localectl set-x11-keymap at
