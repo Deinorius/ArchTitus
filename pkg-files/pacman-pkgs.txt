@@ -9,6 +9,7 @@ alsa-utils
 alsa-plugins
 binutils
 dosfstools
+htop
 linux-headers
 noto-fonts
 noto-fonts-emoji
@@ -57,7 +58,6 @@ gptfdisk
 gst-libav
 gstreamer-vaapi
 haveged
-htop
 hunspell
 hunspell-de
 hunspell-en_us
