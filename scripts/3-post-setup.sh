@@ -153,7 +153,7 @@ echo "vm.swappiness=10" > /etc/sysctl.d/99-swappiness.conf
 echo "  Set system to a lower swappiness with value 10"
 
 YAKU_HERE=$(pacman -Qs yakuake)
-if [[ -z ${YAKU_HERE} ]]; then
+if [[ ! -z ${YAKU_HERE} ]]; then
 mkdir -p /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
 cp -rfv ${HOME}/ArchTitus/configs/BreezeDarkCompact /home/${USERNAME}/.local/share/yakuake/kns_skins/
 mkdir -p /home/${USERNAME}/.config/
