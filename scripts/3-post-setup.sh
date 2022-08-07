@@ -175,7 +175,7 @@ Height=70\n\
 KeepAbove=false\n\
 ShowSystrayIcon=false\n\
 ToggleToFocus=true\n\
-Width=70" > /home/$USERNAME%/.config/yakuakerc
+Width=70" > /home/$USERNAME/.config/yakuakerc
 mkdir -p /home/$USERNAME/.config/autostart
 echo -e " \
 [Desktop Entry]\n\
