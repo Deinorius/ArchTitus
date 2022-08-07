@@ -163,7 +163,12 @@ echo "  Let autostart yakuake and set Breeze Dark Compact theme"
 sudo chown -R $USERNAME:$USERNAME /home/$USERNAME/.config /home/$USERNAME/.local
 ATLOCALE=$(cat /etc/locale.gen | grep -i '#de_AT.UTF-8')
 if [[ ! "${ATLOCALE}" == "de_AT.UTF-8" ]]; then
-   localectl set-keymap "" && localectl set-keymap at
+echo -e "Section ""InputClass"" \
+        Identifier ""system-keyboard""\n\
+        MatchIsKeyboard ""on""\n\
+        Option ""XkbLayout"" ""at""\n\
+EndSection" >> /etc/X11/xorg.conf.d/00-keyboard.conf
+   #localectl set-keymap "" && localectl set-keymap at
    else
    localectl set-keymap "" && sudo localectl set-keymap ${KEYMAP}
 fi
