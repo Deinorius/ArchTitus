@@ -163,7 +163,8 @@ echo "  Let autostart yakuake and set Breeze Dark Compact theme"
 sudo chown -R $USERNAME:$USERNAME /home/$USERNAME/.config /home/$USERNAME/.local
 ATLOCALE=$(cat /etc/locale.gen | grep -i '#de_AT.UTF-8')
 if [[ ! "${ATLOCALE}" == "de_AT.UTF-8" ]]; then
-echo -e "Section ""InputClass"" \
+echo -e "\
+Section ""InputClass""\n\
         Identifier ""system-keyboard""\n\
         MatchIsKeyboard ""on""\n\
         Option ""XkbLayout"" ""at""\n\
