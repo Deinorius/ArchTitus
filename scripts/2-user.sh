@@ -20,8 +20,6 @@ Installing AUR Softwares
 "
 source $HOME/ArchTitus/configs/setup.conf
 
-passwd ${PASSWORD}
-
 echo -ne "
 -------------------------------------------------------------------------
                     bash/zsh: Setting all plugins
