@@ -90,8 +90,9 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 if [[ ${DESKTOP_ENV} == "kde" ]]; then
+  KCM_CONF="/usr/lib/sddm/sddm.conf.d/default.conf"
   mkdir -p /etc/sddm.conf.d/
-  sudo cp -R /usr/lib/sddm/sddm.conf.d/ /etc/
+  cp -rfv ${KCM_CONF} /etc/sddm.conf.d/
   sed -i 's/^Current=/Current=breeze/' > /etc/sddm.conf.d/default.conf
   systemctl enable sddm.service
   
@@ -152,8 +153,9 @@ sysctl vm.swappiness=10
 echo "vm.swappiness=10" > /etc/sysctl.d/99-swappiness.conf
 echo "  Set system to a lower swappiness with value 10"
 
+YAKUAKE_SKIN="${HOME}/ArchTitus/configs/yakuake-skin"
 mkdir -p /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
-cp -r ${HOME}/ArchTitus/configs/yakuake-skin/ /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
+cp -rfv ${YAKUAKE_SKIN} /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
 mkdir -p /home/${USERNAME}/.config/
 echo -e " \
 [Animation]\n\
