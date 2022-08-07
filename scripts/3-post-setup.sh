@@ -21,6 +21,8 @@ Final Setup and Configurations
 
 source ${HOME}/ArchTitus/configs/setup.conf
 
+passwd ${PASSWORD}
+
 if [[ "${FS}" == "luks" || "${FS}" == "btrfs" ]]; then
  sed -i '14 s/.*/BINARIES=(btrfs)/' /etc/mkinitcpio.conf
 
