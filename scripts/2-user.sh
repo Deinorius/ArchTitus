@@ -40,7 +40,7 @@ if [[ ${SHELL} == "zsh-manjaro" ]]; then
    #sudo chsh -s $/bin/zsh $USERNAME
    #sudo sed -i '7 s/sufficient/required/g' /etc/pam.d/chsh
    
-else [[ ${SHELL} == "zsh-Titusprofile" ]]; then
+elif [[ ${SHELL} == "zsh-Titusprofile" ]]; then
    cd ~
    mkdir "/home/$USERNAME/.cache"
    touch "/home/$USERNAME/.cache/zshhistory"
