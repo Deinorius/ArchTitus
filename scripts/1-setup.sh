@@ -57,15 +57,15 @@ sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
 locale-gen
 timedatectl --no-ask-password set-timezone ${TIMEZONE}
 timedatectl --no-ask-password set-ntp 1
-#localectl --no-ask-password set-locale LANG="en_US.UTF-8" LC_TIME="en_US.UTF-8"
 ln -s /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 hwclock --systohc
 systemctl enable systemd-timesyncd.service
 
 # Set keymaps
-#localectl --no-ask-password set-keymap ${KEYMAP}
-echo KEYMAP=${KEYMAP} > /etc/vconsole.conf
-sed -i 's/LANG=/LANG=en_US.UTF-8/' > /etc/locale.conf
+localectl --no-ask-password set-locale LANG="de_AT.UTF-8" LC_TIME="de_AT.UTF-8"
+localectl --no-ask-password set-keymap ${KEYMAP}
+#echo KEYMAP=${KEYMAP} > /etc/vconsole.conf
+#sed -i 's/LANG=/LANG=en_US.UTF-8/' > /etc/locale.conf
 # Add sudo no password rights
 sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
 sed -i 's/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
