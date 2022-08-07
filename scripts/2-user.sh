@@ -34,10 +34,8 @@ if [[ ${SHELL} == "zsh-manjaro" ]]; then
    git clone https://aur.archlinux.org/nerd-fonts-noto-sans-mono.git && cd nerd-fonts-noto-sans-mono && makepkg -si --noconfirm %% cd ~
    git clone https://github.com/Deinorius/deino-zshconf && cd deino-zshconf && makepkg -si --noconfirm && cd ~
    rm -rf deino-zshconf nerd-fonts-noto-sans-mono
-   for i in /home/$USERNAME/ /root/; do cp /etc/skel/.zshrc ${i}/; done
-   #cp /etc/skel/.zshrc /home/$USERNAME/
+   cp /etc/skel/.zshrc /home/$USERNAME/
    sudo sed -i 's/\/bin\/bash/\/bin\/zsh/' /etc/passwd
-   #chsh -s /bin/zsh $USERNAME
    
 elif [[ ${SHELL} == "zsh-Titusprofile" ]]; then
    cd ~
