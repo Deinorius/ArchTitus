@@ -93,7 +93,6 @@ if [[ ${DESKTOP_ENV} == "kde" ]]; then
   KCM_CONF="${HOME}/ArchTitus/configs/default.conf"
   mkdir -p /etc/sddm.conf.d/
   cp -rfv ${KCM_CONF} /etc/sddm.conf.d/
-  #sed -i 's/^Current=/Current=breeze/' > /etc/sddm.conf.d/default.conf
   systemctl enable sddm.service
   
 elif [[ "${DESKTOP_ENV}" == "gnome" ]]; then
@@ -155,7 +154,7 @@ echo "  Set system to a lower swappiness with value 10"
 
 #YAKUAKE_SKIN="${HOME}/ArchTitus/configs/BreezeDarkCompact"
 mkdir -p /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
-cp -rfv ${HOME}/ArchTitus/configs/BreezeDarkCompact /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
+cp -rfv ${HOME}/ArchTitus/configs/BreezeDarkCompact /home/${USERNAME}/.local/share/yakuake/kns_skins/
 mkdir -p /home/${USERNAME}/.config/
 cp -fv ${HOME}/ArchTitus/configs/yakuakerc /home/${USERNAME}/.config/
 mkdir -p /home/$USERNAME/.config/autostart
@@ -164,9 +163,9 @@ echo "  Let autostart yakuake and set Breeze Dark Compact theme"
 sudo chown -R $USERNAME:$USERNAME /home/$USERNAME/.config /home/$USERNAME/.local
 ATLOCALE=$(cat /etc/locale.gen | grep -i '#de_AT.UTF-8')
 if [[ ! "${ATLOCALE}" == "de_AT.UTF-8" ]]; then
-   sudo localectl set-x11-keymap "" && sudo localectl set-x11-keymap at
+   localectl set-x11-keymap at #"" && localectl set-x11-keymap at
    else
-   sudo localectl set-x11-keymap "" && sudo localectl set-x11-keymap ${KEYMAP}
+   localectl set-keymap "" && sudo localectl set-keymap ${KEYMAP}
 fi
 echo "  Set X.org keymap layout"
 
