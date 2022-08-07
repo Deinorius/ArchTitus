@@ -23,8 +23,14 @@ cd ArchTitus
 ./archtitus.sh
 ```
 
+A more direct version:
+
+...
+pacman -Sy git --noconfirm && git clone https://github.com/Deinorius/ArchTitus && cd ArchTitus && ./archtitus.sh
+...
+
 ### System Description
-This is completely automated arch install. It includes prompts to select your desired desktop environment, window manager, AUR helper, and whether to do a full or minimal install. The KDE desktop environment on arch includes all the packages I use on a daily basis, as well as some customizations.
+This is completely automated arch install. It includes prompts to select your desired desktop environment, window manager, AUR helper, shell, and whether to do a full or minimal install. The KDE desktop environment on arch includes all the packages I use on a daily basis, as well as some customizations.
 
 ## Troubleshooting
 
