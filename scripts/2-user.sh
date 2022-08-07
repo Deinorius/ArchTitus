@@ -35,7 +35,7 @@ if [[ ${SHELL} == "zsh-manjaro" ]]; then
    git clone https://github.com/Deinorius/deino-zshconf && cd deino-zshconf && makepkg -si --noconfirm && cd ~
    rm -rf deino-zshconf nerd-fonts-noto-sans-mono
    cp /etc/skel/.zshrc /home/$USERNAME/
-   sed -i 's/\/bin\/bash/\/bin\/zsh/' /etc/passwd
+   sudo sed -i 's/\/bin\/bash/\/bin\/zsh/' /etc/passwd
    #chsh -s /bin/zsh $USERNAME
    
 elif [[ ${SHELL} == "zsh-Titusprofile" ]]; then
