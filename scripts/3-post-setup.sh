@@ -157,50 +157,16 @@ echo "  Set system to a lower swappiness with value 10"
 mkdir -p /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
 cp -rfv ${HOME}/ArchTitus/configs/BreezeDarkCompact /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
 mkdir -p /home/${USERNAME}/.config/
-echo -e " \
-[Animation]\n\
-Frames=10\n\
-\n\
-[Appearance]\n\
-Skin=BreezeDarkCompact\n\
-SkinInstalledWithKns=true\n\
-Blur=true\n\
-Translucency=true\n\
-\n\
-[Dialogs]\n\
-FirstRun=false\n\
-\n\
-[Window]\n\
-Height=70\n\
-KeepAbove=false\n\
-ShowSystrayIcon=false\n\
-ToggleToFocus=true\n\
-Width=70" > /home/$USERNAME/.config/yakuakerc
+cp -fv ${HOME}/ArchTitus/configs/yakuakerc /home/${USERNAME}/.config/
 mkdir -p /home/$USERNAME/.config/autostart
-echo -e " \
-[Desktop Entry]\n\
-Name=Yakuake\n\
-Name[de]=Yakuake\n\
-GenericName=Drop-down Terminal\n\
-GenericName[de]=Aufklapp-Terminal\n\
-Exec=yakuake\n\
-Icon=yakuake\n\
-Type=Application\n\
-Terminal=false\n\
-Categories=Qt;KDE;System;TerminalEmulator;\n\
-Comment=A drop-down terminal emulator based on KDE Konsole technology.\n\
-Comment[de]=Ein Aufklapp-Terminalemulator basierend auf der KDE-Konsole.\n\
-X-DBUS-StartupType=Unique\n\
-X-KDE-StartupNotify=false\n\
-X-DBUS-ServiceName=org.kde.yakuake" > /home/$USERNAME/.config/autostart/org.kde.yakuake.desktop
-echo -e "  Set Breeze Dark Compact skin & autostart for Yakuake"
+cp -fv ${HOME}/ArchTitus/configs/org.kde.yakuake.desktop /home/${USERNAME}/.config/autostart
 echo "  Let autostart yakuake and set Breeze Dark Compact theme"
 sudo chown -R $USERNAME:$USERNAME /home/$USERNAME/.config /home/$USERNAME/.local
 ATLOCALE=$(cat /etc/locale.gen | grep -i '#de_AT.UTF-8')
 if [[ ! "${ATLOCALE}" == "de_AT.UTF-8" ]]; then
-   sudo localectl set-x11-keymap at
+   sudo localectl set-x11-keymap "" && sudo localectl set-x11-keymap at
    else
-   sudo localectl set-x11-keymap ${KEYMAP}
+   sudo localectl set-x11-keymap "" && sudo localectl set-x11-keymap ${KEYMAP}
 fi
 echo "  Set X.org keymap layout"
 
