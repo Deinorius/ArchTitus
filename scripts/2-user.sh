@@ -35,10 +35,7 @@ if [[ ${SHELL} == "zsh-manjaro" ]]; then
    git clone https://github.com/Deinorius/deino-zshconf && cd deino-zshconf && makepkg -si --noconfirm && cd ~
    rm -rf deino-zshconf nerd-fonts-noto-sans-mono
    cp /etc/skel/.zshrc /home/$USERNAME/
-   #sudo echo "auth            sufficient        pam_shells.so" >> /etc/pam.d/chsh
-   sudo chsh -s /bin/zsh
    chsh -s /bin/zsh $USERNAME
-   #sudo sed -i '7 s/sufficient/required/g' /etc/pam.d/chsh
    
 elif [[ ${SHELL} == "zsh-Titusprofile" ]]; then
    cd ~
