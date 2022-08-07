@@ -152,7 +152,8 @@ sysctl vm.swappiness=10
 echo "vm.swappiness=10" > /etc/sysctl.d/99-swappiness.conf
 echo "  Set system to a lower swappiness with value 10"
 
-#YAKUAKE_SKIN="${HOME}/ArchTitus/configs/BreezeDarkCompact"
+YAKU_HERE=$(pacman -Qs yakuake)
+if [[ -z ${YAKU_HERE} ]]; then
 mkdir -p /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
 cp -rfv ${HOME}/ArchTitus/configs/BreezeDarkCompact /home/${USERNAME}/.local/share/yakuake/kns_skins/
 mkdir -p /home/${USERNAME}/.config/
@@ -160,19 +161,14 @@ cp -fv ${HOME}/ArchTitus/configs/yakuakerc /home/${USERNAME}/.config/
 mkdir -p /home/$USERNAME/.config/autostart
 cp -fv ${HOME}/ArchTitus/configs/org.kde.yakuake.desktop /home/${USERNAME}/.config/autostart
 echo "  Let autostart yakuake and set Breeze Dark Compact theme"
+fi
+
 sudo chown -R $USERNAME:$USERNAME /home/$USERNAME/.config /home/$USERNAME/.local
+echo "  Assigning user $USERNAME ownership to .config and .locale"
+
 ATLOCALE=$(cat /etc/locale.gen | grep -i '#de_AT.UTF-8')
 if [[ ! "${ATLOCALE}" == "de_AT.UTF-8" ]]; then
-echo -e "\
-# Written by systemd-localed(8), read by systemd-localed and Xorg. Its'\n\
-# probably wise not to edit this file manually. Use localectl(1) to\n\
-# instruct systemd-localed to update it.
-Section ""InputClass""\n\
-        Identifier ""system-keyboard""\n\
-        MatchIsKeyboard ""on""\n\
-        Option ""XkbLayout"" ""at""\n\
-EndSection" > /etc/X11/xorg.conf.d/00-keyboard.conf
-   #localectl set-keymap "" && localectl set-keymap at
+   localectl --no-ask-password set-x11-keymap at# "" && localectl set-keymap at
    else
    localectl set-keymap "" && sudo localectl set-keymap ${KEYMAP}
 fi
