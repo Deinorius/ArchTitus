@@ -81,7 +81,7 @@ createsubvolumes () {
     btrfs su cr /mnt/@swap # to be mounted at /swap
     btrfs su cr /mnt/@var_abs # to be mounted at /var/abs
     btrfs su cr /mnt/@var_cache_pacmanPkg # to be mounted at /var/cache/pacman/pkg
-    btrfs su cr /mnt/@var_lib_libvirt # to be mounted at /var/log
+    btrfs su cr /mnt/@var_lib_libvirtImages # to be mounted at /var/log
     btrfs su cr /mnt/@var_log # to be mounted at /var/log
     btrfs su cr /mnt/@var_tmp # to be mounted at /var/tmp
 }
@@ -94,7 +94,7 @@ mountallsubvol () {
     mount -o ${MOUNT_OPTIONS},subvol=@swap ${partition2} /mnt/swap
     mount -o ${MOUNT_OPTIONS},subvol=@var_abs ${partition2} /mnt/var/abs
     mount -o ${MOUNT_OPTIONS},subvol=@var_cache_pacmanPkg ${partition2} /mnt/var/cache/pacman/pkg
-    mount -o ${MOUNT_OPTIONS},subvol=@var_lib_libvirt ${partition2} /mnt/var/lib/libvirt
+    mount -o ${MOUNT_OPTIONS},subvol=@var_lib_libvirtImages ${partition2} /mnt/var/lib/libvirt/images
     mount -o ${MOUNT_OPTIONS},subvol=@var_log ${partition2} /mnt/var/log
     mount -o ${MOUNT_OPTIONS},subvol=@var_tmp ${partition2} /mnt/var/tmp
 }
@@ -108,7 +108,7 @@ subvolumesetup () {
 # mount @ subvolume
     mount -o ${MOUNT_OPTIONS},subvol=@ ${partition2} /mnt
 # make directories home, .snapshots, var, tmp
-    mkdir -p /mnt/{.snapshots,home,srv,swap,var/{abs,cache/pacman/pkg,lib/libvirt,log,tmp}}
+    mkdir -p /mnt/{.snapshots,home,srv,swap,var/{abs,cache/pacman/pkg,lib/libvirt/images,log,tmp}}
 # mount subvolumes
     mountallsubvol
 }
