@@ -21,8 +21,6 @@ Final Setup and Configurations
 
 source ${HOME}/ArchTitus/configs/setup.conf
 
-passwd ${PASSWORD}
-
 if [[ "${FS}" == "luks" || "${FS}" == "btrfs" ]]; then
  sed -i '14 s/.*/BINARIES=(btrfs)/' /etc/mkinitcpio.conf
 
@@ -165,7 +163,7 @@ echo "  Let autostart yakuake and set Breeze Dark Compact theme"
 sudo chown -R $USERNAME:$USERNAME /home/$USERNAME/.config /home/$USERNAME/.local
 ATLOCALE=$(cat /etc/locale.gen | grep -i '#de_AT.UTF-8')
 if [[ ! "${ATLOCALE}" == "de_AT.UTF-8" ]]; then
-   localectl set-x11-keymap at #"" && localectl set-x11-keymap at
+   localectl set-keymap "" && localectl set-keymap at
    else
    localectl set-keymap "" && sudo localectl set-keymap ${KEYMAP}
 fi
