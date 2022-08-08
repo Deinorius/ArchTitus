@@ -146,7 +146,7 @@ echo -ne "
                     Setting custom tweaks
 -------------------------------------------------------------------------
 "
-echo -e '"Syntax highlighting\nsyntax on\n"Number lines\nset number\n"Autocomplete\nset wildmenu\n"Highlight matching brackets\nset showmatch\n"Search tweaks\nset incsearch\nset hlsearch' > /etc/vimrc
+echo -e '"Number lines\nset number\n"Highlight matching brackets\nset showmatch\n"Highlight search result\nset hlsearch' >> /usr/share/vim/vim90/defaults.vim
 echo "  Activate Vim tweaks like syntax and number lines"
 sysctl vm.swappiness=10
 echo "vm.swappiness=10" > /etc/sysctl.d/99-swappiness.conf
