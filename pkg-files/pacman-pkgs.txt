@@ -46,9 +46,9 @@ exfat-utils
 firefox
 firefox-i18n-de
 flatpak
-#fuse2
-#fuse3
-#fuseiso
+fuse2
+fuse3
+fuseiso
 gamemode
 gimp
 gimp-plugin-bimp
@@ -73,7 +73,8 @@ lib32-pipewire-jack
 libreoffice-fresh
 libreoffice-fresh-de
 libtool
-#lutris
+libvirt
+lutris
 neofetch
 networkmanager-l2tp
 ntfs-3g
@@ -82,7 +83,7 @@ os-prober
 #papirus-icon-theme
 phonon-qt5-gstreamer
 #powerline-fonts # for vim
-qemu
+qemu-desktop
 qt5-imageformats
 sigil
 snap-pac
