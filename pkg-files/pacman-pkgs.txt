@@ -10,7 +10,6 @@ alsa-plugins
 binutils
 dosfstools
 htop
-linux-headers
 noto-fonts
 noto-fonts-emoji
 pipewire-pulse
