@@ -262,6 +262,23 @@ case ${options[$?]} in
 esac
 }
 
+hibernation () {
+echo -ne "
+Activating hibernation e.g. for laptops? yes/no:
+"
+
+options=("Yes" "No")
+select_option $? 1 "${options[@]}"
+
+case ${options[$?]} in
+    y|Y|yes|Yes|YES)
+    set_option HIBERNATION $hibernation;;
+    n|N|no|NO|No)
+    set_option NOHIBERNATION $nohibernation;;
+    *) echo "Wrong option. Try again";drivessd;;
+esac
+}
+
 # @description Disk selection for drive to be used with installation.
 diskpart () {
 echo -ne "
@@ -366,6 +383,9 @@ kernel
 clear
 logo
 shell
+clear
+logo
+hibernation
 clear
 logo
 diskpart
