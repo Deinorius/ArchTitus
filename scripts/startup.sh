@@ -272,10 +272,10 @@ select_option $? 1 "${options[@]}"
 
 case ${options[$?]} in
     y|Y|yes|Yes|YES)
-    set_option HIBERNATION $hibernation;;
+    set_option HIBERNATION "do_hibernate";;
     n|N|no|NO|No)
-    set_option NOHIBERNATION $nohibernation;;
-    *) echo "Wrong option. Try again";drivessd;;
+    set_option HIBERNATION "dont_hibernate";;
+    *) echo "Wrong option. Try again";hibernation;;
 esac
 }
 
