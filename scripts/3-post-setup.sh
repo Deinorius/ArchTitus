@@ -66,24 +66,25 @@ DISK_UUID=$(blkid -o value -s UUID ${DISK}2)
 if [[ "${HIBERNATION}" == "do_hibernate" ]]; then
    wget https://raw.githubusercontent.com/osandov/osandov-linux/master/scripts/btrfs_map_physical.c
    gcc -O2 -o btrfs_map_physical btrfs_map_physical.c
-   PHYS_OFFSET=$(./btrfs_map_physical /swap/swapfile | awk -F: 'NR==2 {print $1}' | cut -f 9)
+   PHYS_OFFSET=$(./btrfs_map_physical /swap/swapfile | rev | awk -F: 'NR==2 {print $1}' | cut -f 1 | rev)
    PGSZ=$(getconf PAGESIZE)
    RESUME_OFF=$((PHYS_OFFSET / PGSZ))
    MAJMIN=$(lsblk ${DISK} -o MAJ:MIN | awk 'END{print}')
    
    if [[ "${FS}" == "luks" ]]; then
       sed -i 's/HOOKS=(base systemd \(.*block\) /&sd-encrypt/' /etc/mkinitcpio.conf # create sd-encrypt after block hook
-      echo "rd.luks.name=${DISK_UUID}=cryptroot rootflags=subvol=@ root=${DISK} resume=/dev/mapper/cryptroot resume_offset=${RESUME_OFF} rw bgrt_disable quiet loglevel=4" > /etc/kernel/cmdline
+      echo "rd.luks.name=${DISK_UUID}=cryptroot rootflags=subvol=@ root=/dev/mapper/cryptroot resume=/dev/mapper/cryptroot resume_offset=${RESUME_OFF} rw bgrt_disable quiet loglevel=4" > /etc/kernel/cmdline
    else
-      echo "rootflags=subvol=@ root=UUID=${DISK_UUID} resume=${DISK} resume_offset=${RESUME_OFF} rw bgrt_disable quiet loglevel=4" > /etc/kernel/cmdline
+      echo "rootflags=subvol=@ root=UUID=${DISK_UUID} resume=${DISK_UUID} resume_offset=${RESUME_OFF} rw bgrt_disable quiet loglevel=4" > /etc/kernel/cmdline
    fi
    echo ${MAJMIN} > /sys/power/resume
    echo ${RESUME_OFF} > /sys/power/resume_offset
+   #rm btrfs_map_physical*
 
 elif [[ "${HIBERNATION}" == "dont_hibernate" ]]; then
    if [[ "${FS}" == "luks" ]]; then
       sed -i 's/HOOKS=(base systemd \(.*block\) /&sd-encrypt/' /etc/mkinitcpio.conf # create sd-encrypt after block hook
-      echo "rd.luks.name=${DISK_UUID}=cryptroot rootflags=subvol=@ root=${DISK} rw bgrt_disable quiet loglevel=4" > /etc/kernel/cmdline
+      echo "rd.luks.name=${DISK_UUID}=cryptroot rootflags=subvol=@ root=/dev/mapper/cryptroot rw bgrt_disable quiet loglevel=4" > /etc/kernel/cmdline
    else
       echo "rootflags=subvol=@ root=UUID=${DISK_UUID} rw bgrt_disable quiet loglevel=4" > /etc/kernel/cmdline
    fi
@@ -155,6 +156,8 @@ systemctl enable avahi-daemon.service
 echo "  Avahi enabled"
 systemctl enable reflector.timer
 echo "  Auto update mirros enabled - reflector"
+systemctl enable power-profiles-daemon.service
+echo "  Enable power-profiles-daemon'
 
     
 echo -ne "
@@ -184,7 +187,7 @@ echo "  Assigning user $USERNAME ownership to .config and .locale"
 
 ATLOCALE=$(cat /etc/locale.gen | grep -i '#de_AT.UTF-8')
 if [[ ! "${ATLOCALE}" == "de_AT.UTF-8" ]]; then
-   localectl --no-ask-password set-x11-keymap "" && localectl --no-ask-password set-x11-keymap at
+   localectl --no-ask-password set-x11-keymap at#"" && localectl --no-ask-password set-x11-keymap at
    else
    localectl set-keymap "" && sudo localectl set-keymap ${KEYMAP}
 fi
