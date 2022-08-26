@@ -1,11 +1,12 @@
+lightly-git
 --END OF MINIMAL INSTALL--
 7-zip
-amberol
 ani-cli # anime streaming over clig
 autojump
 ect # probably best PNG optimizer
 ferdium-bin
 flips # floating ips for ROM patching
+g4music
 #haruna
 krop # PDF cropper
 #lightly-git
