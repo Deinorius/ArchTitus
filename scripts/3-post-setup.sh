@@ -185,8 +185,8 @@ fi
 sudo chown -R $USERNAME:$USERNAME /home/$USERNAME/.config /home/$USERNAME/.local
 echo "  Assigning user $USERNAME ownership to .config and .locale"
 
-cp -rfv ${HOME}/ArchTitus/configs/Aritim-Dark-Rounded-Blur /usr/share/plasma/desktoptheme/Aritim-Dark-Rounded-Blur
-cp -rfv ${HOME}/ArchTitus/configs/Aritim-Dark-Flat-Blur /usr/share/plasma/desktoptheme/Aritim-Dark-Flat-Blur
+cp -rfv ${HOME}/ArchTitus/configs/Aritim-Dark-Rounded-Blur /home/$USERNAME/.local/share/plasma/desktoptheme/Aritim-Dark-Rounded-Blur
+cp -rfv ${HOME}/ArchTitus/configs/Aritim-Dark-Flat-Blur /home/$USERNAME/.local/share/plasma/desktoptheme/Aritim-Dark-Flat-Blur
 
 ATLOCALE=$(cat /etc/locale.gen | grep -i '#de_AT.UTF-8')
 if [[ ! "${ATLOCALE}" == "de_AT.UTF-8" ]]; then
