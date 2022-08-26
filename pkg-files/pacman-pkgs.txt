@@ -9,6 +9,8 @@ alsa-utils
 alsa-plugins
 binutils
 dosfstools
+firefox
+firefox-i18n-de
 htop
 noto-fonts
 noto-fonts-emoji
@@ -28,11 +30,11 @@ alsa-plugins
 alsa-utils
 autoconf
 automake
-bash-completionbluez
+bash-completion
+bluez
 bluez-libs
 bluez-utils
 #bridge-utils
-btrfs-progs
 calibre
 celluloid #video player
 clipgrab
@@ -43,8 +45,6 @@ dnsmasq
 efibootmgr
 egl-wayland
 exfat-utils
-firefox
-firefox-i18n-de
 flatpak
 fuse2
 fuse3
@@ -80,7 +80,6 @@ networkmanager-l2tp
 ntfs-3g
 openssh
 os-prober
-#papirus-icon-theme
 phonon-qt5-gstreamer
 #powerline-fonts # for vim
 qemu-desktop
