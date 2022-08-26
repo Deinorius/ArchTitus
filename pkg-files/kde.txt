@@ -5,6 +5,7 @@ ark
 breeze
 breeze-gtk
 dolphin
+gnome-themes-extra
 kde-gtk-config
 konsole
 papirus-icon-theme
