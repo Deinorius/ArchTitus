@@ -75,7 +75,7 @@ if [[ "${HIBERNATION}" == "do_hibernate" ]]; then
       sed -i 's/HOOKS=(base systemd \(.*block\) /&sd-encrypt/' /etc/mkinitcpio.conf # create sd-encrypt after block hook
       echo "rd.luks.name=${DISK_UUID}=cryptroot rootflags=subvol=@ root=/dev/mapper/cryptroot resume=/dev/mapper/cryptroot resume_offset=${RESUME_OFF} rw bgrt_disable quiet loglevel=4" > /etc/kernel/cmdline
    else
-      echo "rootflags=subvol=@ root=UUID=${DISK_UUID} resume=${DISK_UUID} resume_offset=${RESUME_OFF} rw bgrt_disable quiet loglevel=4" > /etc/kernel/cmdline
+      echo "rootflags=subvol=@ root=UUID=${DISK_UUID} resume=${DISK_UUID} resume_offset=${RESUME_OFF} rw bgrt_disable" > /etc/kernel/cmdline
    fi
    echo ${MAJMIN} > /sys/power/resume
    echo ${RESUME_OFF} > /sys/power/resume_offset
