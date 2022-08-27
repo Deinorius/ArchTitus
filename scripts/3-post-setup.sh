@@ -157,7 +157,7 @@ echo "  Avahi enabled"
 systemctl enable reflector.timer
 echo "  Auto update mirros enabled - reflector"
 systemctl enable power-profiles-daemon.service
-echo "  Enable power-profiles-daemon'
+echo "  Enable power-profiles-daemon"
 
     
 echo -ne "
