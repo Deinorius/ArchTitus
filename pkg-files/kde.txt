@@ -3,11 +3,11 @@ sddm
 sddm-kcm
 ark
 breeze
-breeze-gtk
 dolphin
 gnome-themes-extra
 kde-gtk-config
 konsole
+libadwaita
 papirus-icon-theme
 plasma-wayland-session
 xdg-desktop-portal-kde
