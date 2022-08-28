@@ -73,20 +73,20 @@ if [[ "${HIBERNATION}" == "do_hibernate" ]]; then
    
    if [[ "${FS}" == "luks" ]]; then
       sed -i 's/HOOKS=(base systemd \(.*block\) /&sd-encrypt/' /etc/mkinitcpio.conf # create sd-encrypt after block hook
-      echo "rd.luks.name=${DISK_UUID}=cryptroot rootflags=subvol=@ root=/dev/mapper/cryptroot resume=/dev/mapper/cryptroot resume_offset=${RESUME_OFF} rw bgrt_disable quiet loglevel=4" > /etc/kernel/cmdline
+      echo "rd.luks.name=${DISK_UUID}=cryptroot rootflags=subvol=@ root=/dev/mapper/cryptroot resume=/dev/mapper/cryptroot resume_offset=${RESUME_OFF} rw bgrt_disable quiet loglevel=4 nosgx" > /etc/kernel/cmdline
    else
-      echo "rootflags=subvol=@ root=UUID=${DISK_UUID} resume=${DISK}2 resume_offset=${RESUME_OFF} rw bgrt_disable quiet loglevel=4" > /etc/kernel/cmdline
+      echo "rootflags=subvol=@ root=UUID=${DISK_UUID} resume=${DISK}2 resume_offset=${RESUME_OFF} rw bgrt_disable quiet loglevel=4 nosgx" > /etc/kernel/cmdline
    fi
    echo ${MAJMIN} > /sys/power/resume
    echo ${RESUME_OFF} > /sys/power/resume_offset
-   #rm btrfs_map_physical*
+   rm btrfs_map_physical*
 
 elif [[ "${HIBERNATION}" == "dont_hibernate" ]]; then
    if [[ "${FS}" == "luks" ]]; then
       sed -i 's/HOOKS=(base systemd \(.*block\) /&sd-encrypt/' /etc/mkinitcpio.conf # create sd-encrypt after block hook
-      echo "rd.luks.name=${DISK_UUID}=cryptroot rootflags=subvol=@ root=/dev/mapper/cryptroot rw bgrt_disable quiet loglevel=4" > /etc/kernel/cmdline
+      echo "rd.luks.name=${DISK_UUID}=cryptroot rootflags=subvol=@ root=/dev/mapper/cryptroot rw bgrt_disable quiet loglevel=4 nosgx" > /etc/kernel/cmdline
    else
-      echo "rootflags=subvol=@ root=UUID=${DISK_UUID} rw bgrt_disable quiet loglevel=4" > /etc/kernel/cmdline
+      echo "rootflags=subvol=@ root=UUID=${DISK_UUID} rw bgrt_disable quiet loglevel=4 nosgx" > /etc/kernel/cmdline
    fi
 fi
 echo -e "Regenerate the initramfs"
@@ -174,11 +174,11 @@ echo "  Set system to a lower swappiness with value 10"
 YAKU_HERE=$(pacman -Qs yakuake)
 if [[ ! -z ${YAKU_HERE} ]]; then
 mkdir -p /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
-cp -rfv ${HOME}/ArchTitus/configs/BreezeDarkCompact /home/${USERNAME}/.local/share/yakuake/kns_skins/
+cp -rf ${HOME}/ArchTitus/configs/BreezeDarkCompact /home/${USERNAME}/.local/share/yakuake/kns_skins/
 mkdir -p /home/${USERNAME}/.config/
-cp -fv ${HOME}/ArchTitus/configs/yakuakerc /home/${USERNAME}/.config/
+cp -f ${HOME}/ArchTitus/configs/yakuakerc /home/${USERNAME}/.config/
 mkdir -p /home/$USERNAME/.config/autostart
-cp -fv ${HOME}/ArchTitus/configs/org.kde.yakuake.desktop /home/${USERNAME}/.config/autostart
+cp -f ${HOME}/ArchTitus/configs/org.kde.yakuake.desktop /home/${USERNAME}/.config/autostart
 echo "  Let autostart yakuake and set Breeze Dark Compact theme"
 fi
 
@@ -187,11 +187,11 @@ echo "  Assigning user $USERNAME ownership to .config and .locale"
 
 git clone https://github.com/Mrcuve0/Aritim-Dark && cd Aritim-Dark
 mkdir -p /home/$USERNAME/.local/share/plasma/desktoptheme/
-cp -rfv KDE/plasmaTheme/*Blur /home/$USERNAME/.local/share/plasma/desktoptheme/
+cp -rf KDE/plasmaTheme/*Blur /home/$USERNAME/.local/share/plasma/desktoptheme/
 mkdir -p /home/$USERNAME/.themes/Aritim-Dark
-cp -rfv GTK/gtk-2.0 GTK/gtk-3.0 GTK/index.theme GTK/metadata.desktop /home/$USERNAME/.themes/Aritim-Dark
+cp -rf GTK/gtk-2.0 GTK/gtk-3.0 GTK/index.theme GTK/metadata.desktop /home/$USERNAME/.themes/Aritim-Dark
 mkdir -p /home/$USERNAME/.local/share/color-schemes/
-cp -rfv KDE/colorScheme/AritimDark.colors /home/$USERNAME/.local/color-schemes/
+cp -f KDE/colorScheme/AritimDark.colors /home/$USERNAME/.local/color-schemes/
 cd .. && rm -r Aritim-Dark
 
 ATLOCALE=$(cat /etc/locale.gen | grep -i '#de_AT.UTF-8')
