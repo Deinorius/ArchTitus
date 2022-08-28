@@ -196,14 +196,13 @@ cd .. && rm -r Aritim-Dark
 
 ATLOCALE=$(cat /etc/locale.gen | grep -i '#de_AT.UTF-8')
 if [[ ! "${ATLOCALE}" == "de_AT.UTF-8" ]]; then
-   echo -e "\
-   Section ""InputClass""\n\
-        Identifier ""system-keyboard""\n\
-        MatchIsKeyboard ""on""\n\
-        Option ""XkbLayout"" ""de""" > /etc/X11/xorg.conf.d/00-keyboard.conf
+echo -e '
+Section "InputClass"\n        Identifier "system-keyboard"\n        MatchIsKeyboard "on"\n        Option "XkbLayout" "at"\nEndSection' > /etc/X11/xorg.conf.d/00-keyboard.conf
 #   localectl --no-ask-password set-x11-keymap at#"" && localectl --no-ask-password set-x11-keymap at
-   else
-   localectl set-keymap "" && sudo localectl set-keymap ${KEYMAP}
+else
+echo -e '
+Section "InputClass"\n        Identifier "system-keyboard"\n        MatchIsKeyboard "on"\n        Option "XkbLayout" "${KEYMAP}"\nEndSection' > /etc/X11/xorg.conf.d/00-keyboard.conf
+#localectl set-keymap "" && sudo localectl set-keymap ${KEYMAP}
 fi
 echo "  Set X.org keymap layout"
 
