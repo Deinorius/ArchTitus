@@ -100,13 +100,16 @@ export PATH=$PATH:~/.local/bin
 
 # Theming DE if user chose FULL installation
 if [[ $DESKTOP_ENV == "kde" ]]; then
-  cp -r ~/ArchTitus/configs/.config/* ~/.config/
+  cp -r ~/ArchTitus/configs/.config/* ~/.config/20
   cd ~
   git clone https://aur.archlinux.org/konsave.git
   cd konsave && makepkg -si --noconfirm
+  mkdir -p /home/$USERNAME/.local/share/wallpapers
+  mkdir -p /home/$USERNAME/.local/share/kxmlgui5
   konsave -i ~/ArchTitus/configs/kde.knsv
   sleep 1
   konsave -a kde
+  pacman -R konsave
 elif [[ $DESKTOP_ENV == "openbox" ]]; then
   cd ~
   git clone https://github.com/stojshic/dotfiles-openbox
