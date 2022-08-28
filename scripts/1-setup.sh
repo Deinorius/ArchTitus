@@ -65,7 +65,11 @@ systemctl enable systemd-timesyncd.service
 #localectl --no-ask-password set-locale LANG="de_AT.UTF-8" LC_TIME="de_AT.UTF-8"
 #localectl --no-ask-password set-keymap ${KEYMAP}
 echo KEYMAP=${KEYMAP} > /etc/vconsole.conf
-sed -i 's/LANG=/LANG=en_US.UTF-8/' > /etc/locale.conf
+if [[ "${KEYMAP}" == "us" || "${KEYMAP}" == "uk" ]]; then
+   echo LANG=en_US.UTF-8 > /etc/locale.conf
+elif [[ "${KEYMAP}" == "de" ]]; then
+   echo LANG=de_AT.UTF-8 > /etc/locale.conf
+fi
 # Add sudo no password rights
 sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
 sed -i 's/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
