@@ -75,7 +75,7 @@ if [[ "${HIBERNATION}" == "do_hibernate" ]]; then
       sed -i 's/HOOKS=(base systemd \(.*block\) /&sd-encrypt/' /etc/mkinitcpio.conf # create sd-encrypt after block hook
       echo "rd.luks.name=${DISK_UUID}=cryptroot rootflags=subvol=@ root=/dev/mapper/cryptroot resume=/dev/mapper/cryptroot resume_offset=${RESUME_OFF} rw bgrt_disable quiet loglevel=4" > /etc/kernel/cmdline
    else
-      echo "rootflags=subvol=@ root=UUID=${DISK_UUID} resume=${DISK}2 resume_offset=${RESUME_OFF} rw bgrt_disable" > /etc/kernel/cmdline
+      echo "rootflags=subvol=@ root=UUID=${DISK_UUID} resume=${DISK}2 resume_offset=${RESUME_OFF} rw bgrt_disable quiet loglevel=4" > /etc/kernel/cmdline
    fi
    echo ${MAJMIN} > /sys/power/resume
    echo ${RESUME_OFF} > /sys/power/resume_offset
@@ -196,12 +196,10 @@ cd .. && rm -r Aritim-Dark
 
 ATLOCALE=$(cat /etc/locale.gen | grep -i '#de_AT.UTF-8')
 if [[ ! "${ATLOCALE}" == "de_AT.UTF-8" ]]; then
-echo -e '
-Section "InputClass"\n        Identifier "system-keyboard"\n        MatchIsKeyboard "on"\n        Option "XkbLayout" "at"\nEndSection' > /etc/X11/xorg.conf.d/00-keyboard.conf
+echo -e 'Section "InputClass"\n        Identifier "system-keyboard"\n        MatchIsKeyboard "on"\n        Option "XkbLayout" "at"\nEndSection' > /etc/X11/xorg.conf.d/00-keyboard.conf
 #   localectl --no-ask-password set-x11-keymap at#"" && localectl --no-ask-password set-x11-keymap at
 else
-echo -e '
-Section "InputClass"\n        Identifier "system-keyboard"\n        MatchIsKeyboard "on"\n        Option "XkbLayout" "${KEYMAP}"\nEndSection' > /etc/X11/xorg.conf.d/00-keyboard.conf
+echo -e 'Section "InputClass"\n        Identifier "system-keyboard"\n        MatchIsKeyboard "on"\n        Option "XkbLayout" "${KEYMAP}"\nEndSection' > /etc/X11/xorg.conf.d/00-keyboard.conf
 #localectl set-keymap "" && sudo localectl set-keymap ${KEYMAP}
 fi
 echo "  Set X.org keymap layout"
