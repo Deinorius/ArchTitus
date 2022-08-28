@@ -190,9 +190,9 @@ mkdir -p /home/$USERNAME/.local/share/plasma/desktoptheme/
 cp -rfv KDE/plasmaTheme/*Blur /home/$USERNAME/.local/share/plasma/desktoptheme/
 mkdir -p /home/$USERNAME/.themes/Aritim-Dark
 cp -rfv GTK/gtk-2.0 GTK/gtk-3.0 GTK/index.theme GTK/metadata.desktop /home/$USERNAME/.themes/Aritim-Dark
+mkdir -p /home/$USERNAME/.local/share/color-schemes/
+cp -rfv KDE/colorScheme/AritimDark.colors /home/$USERNAME/.local/color-schemes/
 cd .. && rm -r Aritim-Dark
-#cp -rfv ${HOME}/ArchTitus/configs/Aritim-Dark-Rounded-Blur /home/$USERNAME/.local/share/plasma/desktoptheme/Aritim-Dark-Rounded-Blur
-#cp -rfv ${HOME}/ArchTitus/configs/Aritim-Dark-Flat-Blur /home/$USERNAME/.local/share/plasma/desktoptheme/Aritim-Dark-Flat-Blur
 
 ATLOCALE=$(cat /etc/locale.gen | grep -i '#de_AT.UTF-8')
 if [[ ! "${ATLOCALE}" == "de_AT.UTF-8" ]]; then
