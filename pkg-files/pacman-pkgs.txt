@@ -17,6 +17,7 @@ noto-fonts-emoji
 pipewire-pulse
 pipewire-jack
 pipewire-alsa
+power-profiles-daemon
 gst-plugin-pipewire
 ttf-dejavu
 ttf-liberation
