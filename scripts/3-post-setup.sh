@@ -107,9 +107,8 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 if [[ ${DESKTOP_ENV} == "kde" ]]; then
-  KCM_CONF="${HOME}/ArchTitus/configs/default.conf"
   mkdir -p /etc/sddm.conf.d/
-  cp -rfv ${KCM_CONF} /etc/sddm.conf.d/
+  cp -fv ${HOME}ArchTitus/configs/default.conf /etc/sddm.conf.d/
   systemctl enable sddm.service
   
 elif [[ "${DESKTOP_ENV}" == "gnome" ]]; then
@@ -157,7 +156,7 @@ echo "  Avahi enabled"
 systemctl enable reflector.timer
 echo "  Auto update mirros enabled - reflector"
 systemctl enable power-profiles-daemon.service
-echo "  Enable power-profiles-daemon"
+echo "  power-profiles-daemon enbabled"
 
     
 echo -ne "
@@ -171,8 +170,8 @@ sysctl vm.swappiness=10
 echo "vm.swappiness=10" > /etc/sysctl.d/99-swappiness.conf
 echo "  Set system to a lower swappiness with value 10"
 
-YAKU_HERE=$(pacman -Qs yakuake)
 if [[ ! -z ${YAKU_HERE} ]]; then
+YAKU_HERE=$(pacman -Qs yakuake)
 mkdir -p /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
 cp -rf ${HOME}/ArchTitus/configs/BreezeDarkCompact /home/${USERNAME}/.local/share/yakuake/kns_skins/
 mkdir -p /home/${USERNAME}/.config/
@@ -193,6 +192,7 @@ cp -rf GTK/gtk-2.0 GTK/gtk-3.0 GTK/index.theme GTK/metadata.desktop /home/$USERN
 mkdir -p /home/$USERNAME/.local/share/color-schemes/
 cp -f KDE/colorScheme/AritimDark.colors /home/$USERNAME/.local/color-schemes/
 cd .. && rm -r Aritim-Dark
+echo "  Added Aritim-Dark for Qt and GTK Applications"
 
 ATLOCALE=$(cat /etc/locale.gen | grep -i '#de_AT.UTF-8')
 if [[ ! "${ATLOCALE}" == "de_AT.UTF-8" ]]; then
