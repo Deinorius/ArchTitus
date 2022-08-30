@@ -47,7 +47,7 @@ echo -ne "
 "
 # set qemu modules, if installing via QEMU/virt-manager
 if [[ "${DISK}" == *"/dev/vd"* ]]; then
-    sed -i '7 s/.*/MODULES=(virtio virtio_blk virtio_pci virtio_net)/' /etc/mkinitcpio.conf
+    sed -i '7 s/.*/MODULES=(virtio virtio_pci virtio_blk virtio_net virtio_ring)/' /etc/mkinitcpio.conf
     sudo pacman -S --noconfirm qemu-guest-agent;
     systemctl enable qemu-guest-agent.service
 fi
@@ -66,7 +66,7 @@ DISK_UUID=$(blkid -o value -s UUID ${DISK}2)
 if [[ "${HIBERNATION}" == "do_hibernate" ]]; then
    wget https://raw.githubusercontent.com/osandov/osandov-linux/master/scripts/btrfs_map_physical.c
    gcc -O2 -o btrfs_map_physical btrfs_map_physical.c
-   PHYS_OFFSET=$(./btrfs_map_physical /swap/swapfile | rev | awk -F: 'NR==2 {print $1}' | cut -f 1 | rev)
+   PHYS_OFFSET=$(./btrfs_map_physical /swap/swapfile | awk -F: 'NR==2 {print $1}' | rev | cut -f 1 | rev)
    PGSZ=$(getconf PAGESIZE)
    RESUME_OFF=$((PHYS_OFFSET / PGSZ))
    MAJMIN=$(lsblk ${DISK} -o MAJ:MIN | awk 'END{print}')
@@ -216,8 +216,8 @@ sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL/# %wheel ALL=(ALL:ALL) NOPASSWD: A
 sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
-#rm -r $HOME/ArchTitus
-#rm -r /home/${USERNAME}/ArchTitus
+rm -r $HOME/ArchTitus
+rm -r /home/${USERNAME}/ArchTitus
 
 # Replace in the same state
 cd $pwd
