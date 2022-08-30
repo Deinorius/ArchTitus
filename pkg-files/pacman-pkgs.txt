@@ -32,6 +32,7 @@ alsa-utils
 autoconf
 automake
 bash-completion
+bleachbit
 bluez
 bluez-libs
 bluez-utils
@@ -43,7 +44,6 @@ cmatrix
 #dialog
 dmidecode
 dnsmasq
-efibootmgr
 egl-wayland
 exfat-utils
 flatpak
@@ -62,7 +62,7 @@ hunspell
 hunspell-de
 hunspell-en_us
 iptables-nft
-#jdk-openjdk
+jdk-openjdk
 juk
 kitty
 libdvdcss
