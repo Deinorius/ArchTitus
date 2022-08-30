@@ -57,6 +57,9 @@ echo -e "Creating /EFI/Arch folder"
 mkdir -p /efi/EFI/Arch
 
 echo -e "Editing mkinitcpio.conf..."
+if [[ ! "${DISK}" == *"/dev/vd"* ]]; then
+sed -i "s/ALL_kver=\"\/boot\/vmlinuz-${KERNEL}\"/ALL_kver=\"\/boot\/vmlinuz-${KERNEL}\"\nALL_microcode=\"\/boot\/intel-ucode.img\"/" /etc/mkinitcpio.d/${KERNEL}.preset
+fi
 sed -i "s/#default_options=\"\"/default_efi_image=\"\/efi\/EFI\/Arch\/${KERNEL}.efi\"\ndefault_options=\"--splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp\"/" /etc/mkinitcpio.d/${KERNEL}.preset
 sed -i "s/fallback_options=\"-S autodetect\"/fallback_efi_image=\"\/efi\/EFI\/Arch\/${KERNEL}-fallback.efi\"\nfallback_options=\"-S autodetect --splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp\"/" /etc/mkinitcpio.d/${KERNEL}.preset
 
@@ -170,8 +173,8 @@ sysctl vm.swappiness=10
 echo "vm.swappiness=10" > /etc/sysctl.d/99-swappiness.conf
 echo "  Set system to a lower swappiness with value 10"
 
-if [[ ! -z ${YAKU_HERE} ]]; then
 YAKU_HERE=$(pacman -Qs yakuake)
+if [[ ! -z ${YAKU_HERE} ]]; then
 mkdir -p /home/${USERNAME}/.local/share/yakuake/kns_skins/BreezeDarkCompact/
 cp -rf ${HOME}/ArchTitus/configs/BreezeDarkCompact /home/${USERNAME}/.local/share/yakuake/kns_skins/
 mkdir -p /home/${USERNAME}/.config/
