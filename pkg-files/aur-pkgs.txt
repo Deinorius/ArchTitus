@@ -1,6 +1,6 @@
 lightly-git
 --END OF MINIMAL INSTALL--
-7-zip
+7-zip # alternatively 7-zip-full as full replacement
 ani-cli # anime streaming over clig
 autojump
 ect # probably best PNG optimizer
@@ -8,11 +8,10 @@ ferdium-bin
 flips # floating ips for ROM patching
 g4music
 #haruna
-krop # PDF cropper
-#lightly-git
+#krop # PDF cropper
 #lightlyshaders-git
-mangohud
-mangohud-common
+#mangohud
+#mangohud-common
 #nerd-fonts-fira-code
 #nordic-darker-standard-buttons-theme
 #nordic-darker-theme
@@ -24,4 +23,3 @@ teamviewer
 #thinkfan
 #thinkfan-ui
 ttf-ms-fonts
-#vde2
