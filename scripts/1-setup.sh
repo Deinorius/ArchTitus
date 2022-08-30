@@ -46,15 +46,13 @@ TOTAL_MEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
 if [[  $TOTAL_MEM -gt 8000000 ]]; then
 sed -i "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$nc\"/g" /etc/makepkg.conf
 sed -i "s/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T $nc -z -)/g" /etc/makepkg.conf
+sed -i "s/COMPRESSZSTD=(zstd -c -z -)/COMPRESSZSTD=(zstd -c -z -q --threads=0 -)/g" /etc/makepkg.conf
 fi
 echo -ne "
 -------------------------------------------------------------------------
                     Setup Language to AT/DE/US and set locale  
 -------------------------------------------------------------------------
 "
-sed -i 's/^#de_AT.UTF-8 UTF-8/de_AT.UTF-8 UTF-8/' /etc/locale.gen
-sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
-locale-gen
 timedatectl --no-ask-password set-timezone ${TIMEZONE}
 timedatectl --no-ask-password set-ntp 1
 ln -s /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
@@ -62,14 +60,21 @@ hwclock --systohc
 systemctl enable systemd-timesyncd.service
 
 # Set keymaps
-#localectl --no-ask-password set-locale LANG="de_AT.UTF-8" LC_TIME="de_AT.UTF-8"
-#localectl --no-ask-password set-keymap ${KEYMAP}
+sed -i 's/^#de_AT.UTF-8 UTF-8/de_AT.UTF-8 UTF-8/' /etc/locale.gen
+sed -i 's/^#en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+locale-gen
+
 echo KEYMAP=${KEYMAP} > /etc/vconsole.conf
 if [[ "${KEYMAP}" == "us" || "${KEYMAP}" == "uk" ]]; then
    echo LANG=en_US.UTF-8 > /etc/locale.conf
+   echo LANGUAGE=en_US:en:C >> /etc/locale.conf
+   echo LC_TIME=en_GB.UTF-8 >> /etc/locale.conf
 elif [[ "${KEYMAP}" == "de" ]]; then
    echo LANG=de_AT.UTF-8 > /etc/locale.conf
+   echo LANGUAGE=de_AT:en_US:en:C:de_DE >> /etc/locale.conf
+   echo LC_TIME=de_AT.UTF-8 >> /etc/locale.conf
 fi
+
 # Add sudo no password rights
 sed -i 's/^# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
 sed -i 's/^# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/%wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
@@ -128,7 +133,8 @@ if grep -E "NVIDIA|GeForce" <<< ${gpu_type}; then
 	nvidia-xconfig
 elif lspci | grep 'VGA' | grep -E "Radeon|AMD"; then
     pacman -S --noconfirm --needed xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver gstreamer-vaapi
-elif grep -E "Integrated Graphics Controller" <<< ${gpu_type}; then
+#elif grep -E "Integrated Graphics Controller" <<< ${gpu_type}; then
+elif lspci | grep 'VGA' | grep -E "Intel";; then
     pacman -S --noconfirm --needed libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-utils lib32-mesa
 elif grep -E "Intel Corporation UHD" <<< ${gpu_type}; then
     pacman -S --needed --noconfirm libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-utils lib32-mesa
@@ -188,7 +194,7 @@ if [ $(whoami) = "root"  ]; then
     echo "$USERNAME:$PASSWORD" | chpasswd
     echo "$USERNAME password set"
 
-	cp -R $HOME/ArchTitus /home/$USERNAME/
+    cp -R $HOME/ArchTitus /home/$USERNAME/
     chown -R $USERNAME: /home/$USERNAME/ArchTitus
     echo "ArchTitus copied to home directory"
 
