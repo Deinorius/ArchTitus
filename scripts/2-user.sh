@@ -34,7 +34,8 @@ if [[ ${SHELL} == "zsh-manjaro" ]]; then
    git clone https://aur.archlinux.org/nerd-fonts-noto-sans-mono.git && cd nerd-fonts-noto-sans-mono && makepkg -si --noconfirm %% cd ~
    git clone https://github.com/Deinorius/deino-zshconf && cd deino-zshconf && makepkg -si --noconfirm && cd ~
    rm -rf deino-zshconf nerd-fonts-noto-sans-mono
-   cp /etc/skel/.zshrc /home/$USERNAME/
+   cp -fv /etc/skel/.zshrc /home/$USERNAME/
+   cp -fv /etc/skel/.zshrc /root/
    sudo sed -i 's/\/bin\/bash/\/bin\/zsh/' /etc/passwd
    
 elif [[ ${SHELL} == "zsh-Titusprofile" ]]; then
@@ -60,6 +61,7 @@ done
 
 if [[ $AUR_HELPER == pamac ]]; then
   cd ~
+  sudo pacman -S --noconfirm --needed meson vala asciidoc libhandy
   git clone https://aur.archlinux.org/archlinux-appstream-data-pamac.git && cd archlinux-appstream-data-pamac && makepkg -si --noconfirm --needed && cd ~
   git clone https://aur.archlinux.org/libpamac-nosnap.git && cd libpamac-nosnap && makepkg -si --noconfirm --needed && cd ~
   git clone https://aur.archlinux.org/pamac-nosnap.git && cd pamac-nosnap && makepkg -si --noconfirm --needed && cd ~
