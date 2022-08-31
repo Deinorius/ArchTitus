@@ -30,7 +30,7 @@ kimageformats
 kinfocenter
 krename
 kscreen
-kvantum-qt5
+#kvantum-qt5
 kwalletmanager
 kwayland-integration
 milou
