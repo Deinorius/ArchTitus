@@ -111,7 +111,7 @@ echo -ne "
 "
 if [[ ${DESKTOP_ENV} == "kde" ]]; then
   mkdir -p /etc/sddm.conf.d/
-  cp -fv ${HOME}ArchTitus/configs/default.conf /etc/sddm.conf.d/
+  cp -fv ${HOME}/ArchTitus/configs/default.conf /etc/sddm.conf.d/
   systemctl enable sddm.service
   
 elif [[ "${DESKTOP_ENV}" == "gnome" ]]; then
