@@ -76,9 +76,9 @@ if [[ "${HIBERNATION}" == "do_hibernate" ]]; then
    
    if [[ "${FS}" == "luks" ]]; then
       sed -i 's/HOOKS=(base systemd \(.*block\) /&sd-encrypt/' /etc/mkinitcpio.conf # create sd-encrypt after block hook
-      echo "rd.luks.name=${DISK_UUID}=cryptroot rootflags=subvol=@ root=/dev/mapper/cryptroot resume=/dev/mapper/cryptroot resume_offset=${RESUME_OFF} rw bgrt_disable quiet loglevel=4 nosgx" > /etc/kernel/cmdline
+      echo "rd.luks.name=${DISK_UUID}=cryptroot rootflags=subvol=@ root=/dev/mapper/cryptroot resume=/dev/mapper/cryptroot resume_offset=${RESUME_OFF} rw bgrt_disable quiet loglevel=4 nmi_watchdog=0 nosgx" > /etc/kernel/cmdline
    else
-      echo "rootflags=subvol=@ root=UUID=${DISK_UUID} resume=${DISK}2 resume_offset=${RESUME_OFF} rw bgrt_disable quiet loglevel=4 nosgx" > /etc/kernel/cmdline
+      echo "rootflags=subvol=@ root=UUID=${DISK_UUID} resume=${DISK}2 resume_offset=${RESUME_OFF} rw bgrt_disable quiet loglevel=4 nmi_watchdog=0 nosgx" > /etc/kernel/cmdline
    fi
    echo ${MAJMIN} > /sys/power/resume
    echo ${RESUME_OFF} > /sys/power/resume_offset
@@ -87,9 +87,9 @@ if [[ "${HIBERNATION}" == "do_hibernate" ]]; then
 elif [[ "${HIBERNATION}" == "dont_hibernate" ]]; then
    if [[ "${FS}" == "luks" ]]; then
       sed -i 's/HOOKS=(base systemd \(.*block\) /&sd-encrypt/' /etc/mkinitcpio.conf # create sd-encrypt after block hook
-      echo "rd.luks.name=${DISK_UUID}=cryptroot rootflags=subvol=@ root=/dev/mapper/cryptroot rw bgrt_disable quiet loglevel=4 nosgx" > /etc/kernel/cmdline
+      echo "rd.luks.name=${DISK_UUID}=cryptroot rootflags=subvol=@ root=/dev/mapper/cryptroot rw bgrt_disable quiet loglevel=4 nmi_watchdog=0 nosgx" > /etc/kernel/cmdline
    else
-      echo "rootflags=subvol=@ root=UUID=${DISK_UUID} rw bgrt_disable quiet loglevel=4 nosgx" > /etc/kernel/cmdline
+      echo "rootflags=subvol=@ root=UUID=${DISK_UUID} rw bgrt_disable quiet loglevel=4 nmi_watchdog=0 nosgx" > /etc/kernel/cmdline
    fi
 fi
 echo -e "Regenerate the initramfs"
