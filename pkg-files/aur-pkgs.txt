@@ -1,14 +1,18 @@
 lightly-git
 --END OF MINIMAL INSTALL--
-7-zip # alternatively 7-zip-full as full replacement
-ani-cli # anime streaming over clig
+7-zip
+#7-zip-full
+ani-cli
 autojump
-ect # probably best PNG optimizer
+ect
+# ect - probably best PNG optimizer
 ferdium-bin
-flips # floating ips for ROM patching
+flips
+# flips - floating ips for ROM patching
 g4music
 #haruna
-#krop # PDF cropper
+#krop
+# krop - PDF cropper
 #lightlyshaders-git
 #mangohud
 #mangohud-common
