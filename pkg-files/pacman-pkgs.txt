@@ -38,7 +38,7 @@ bluez-libs
 bluez-utils
 #bridge-utils
 calibre
-celluloid #video player
+celluloid
 clipgrab
 cmatrix
 #dialog
@@ -95,7 +95,7 @@ steam
 terminus-font
 thunderbird
 torrential
-traceroute # track the route taken by packets over an IP
+traceroute
 virt-manager
 which
 #wine-gecko
