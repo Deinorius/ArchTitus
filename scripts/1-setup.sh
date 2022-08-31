@@ -134,7 +134,7 @@ if grep -E "NVIDIA|GeForce" <<< ${gpu_type}; then
 elif lspci | grep 'VGA' | grep -E "Radeon|AMD"; then
     pacman -S --noconfirm --needed xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver gstreamer-vaapi
 #elif grep -E "Integrated Graphics Controller" <<< ${gpu_type}; then
-elif lspci | grep 'VGA' | grep -E "Intel";; then
+elif lspci | grep 'VGA' | grep -E "Intel"; then
     pacman -S --noconfirm --needed libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-utils
 elif grep -E "Intel Corporation UHD" <<< ${gpu_type}; then
     pacman -S --needed --noconfirm libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-utils
