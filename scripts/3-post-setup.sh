@@ -160,6 +160,8 @@ systemctl enable reflector.timer
 echo "  Auto update mirros enabled - reflector"
 systemctl enable power-profiles-daemon.service
 echo "  power-profiles-daemon enbabled"
+systemctl enable libvirtd.service
+echo "  libvirt dameon enbabled"
 
     
 echo -ne "
@@ -184,18 +186,18 @@ cp -f ${HOME}/ArchTitus/configs/org.kde.yakuake.desktop /home/${USERNAME}/.confi
 echo "  Let autostart yakuake and set Breeze Dark Compact theme"
 fi
 
-sudo chown -R $USERNAME:$USERNAME /home/$USERNAME/.config /home/$USERNAME/.local
-echo "  Assigning user $USERNAME ownership to .config and .locale"
-
 git clone https://github.com/Mrcuve0/Aritim-Dark && cd Aritim-Dark
 mkdir -p /home/$USERNAME/.local/share/plasma/desktoptheme/
 cp -rf KDE/plasmaTheme/*Blur /home/$USERNAME/.local/share/plasma/desktoptheme/
 mkdir -p /home/$USERNAME/.themes/Aritim-Dark
 cp -rf GTK/gtk-2.0 GTK/gtk-3.0 GTK/index.theme GTK/metadata.desktop /home/$USERNAME/.themes/Aritim-Dark
 mkdir -p /home/$USERNAME/.local/share/color-schemes/
-cp -f KDE/colorScheme/AritimDark.colors /home/$USERNAME/.local/color-schemes/
+cp -f KDE/colorScheme/AritimDark.colors /home/$USERNAME/.local/color-schemes/Aritim-Dark.colors
 cd .. && rm -r Aritim-Dark
 echo "  Added Aritim-Dark for Qt and GTK Applications"
+
+sudo chown -R $USERNAME:$USERNAME /home/$USERNAME/.config /home/$USERNAME/.local
+echo "  Assigning user $USERNAME ownership to .config and .locale"
 
 ATLOCALE=$(cat /etc/locale.gen | grep -i '#de_AT.UTF-8')
 if [[ ! "${ATLOCALE}" == "de_AT.UTF-8" ]]; then
