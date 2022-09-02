@@ -1,0 +1,30 @@
+[Desktop Entry]
+Actions=getMediaInfoComplete;getMediaInfoSimple;getTXT;getHTML
+Icon=dialog-information
+ServiceTypes=KonqPopupMenu/Plugin
+MimeType=video/*;audio/*;image/*
+Type=Service
+X-KDE-Priority=TopLevel
+X-KDE-Submenu=Mediainfo
+Icon=video-x-generic
+TryExec=mediainfo
+
+[Desktop Action getMediaInfoComplete]
+Name=Get media info
+Icon=dialog-information
+Exec=msg=$(mediainfo --Output=HTML %f);title="Info about $(basename %f)"; kdialog --msgbox "$msg" --title "$title"
+
+[Desktop Action getMediaInfoSimple]
+Name=Get short media info
+Icon=dialog-information
+Exec=mediainfo %f|grep -E '(Format)|(Complete)|(Width)|(Height)|(Audio)|(Duration)|(Video)|(Writing)' |xargs -0 kdialog --title "Info about $(basename %f)" --msgbox
+
+[Desktop Action getTXT]
+Name=Generate TXT
+Icon=text-plain
+Exec=mediainfo --LogFile="$(basename %f)_mediainfo.txt" %f
+
+[Desktop Action getHTML]
+Name=Generate HTML
+Icon=text-html
+Exec=mediainfo --LogFile="$(basename %f)_mediainfo.html"  --Output=HTML %f
