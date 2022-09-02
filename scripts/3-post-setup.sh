@@ -192,9 +192,14 @@ cp -rf KDE/plasmaTheme/*Blur /home/$USERNAME/.local/share/plasma/desktoptheme/
 mkdir -p /home/$USERNAME/.themes/Aritim-Dark
 cp -rf GTK/gtk-2.0 GTK/gtk-3.0 GTK/index.theme GTK/metadata.desktop /home/$USERNAME/.themes/Aritim-Dark
 mkdir -p /home/$USERNAME/.local/share/color-schemes/
-cp -f KDE/colorScheme/AritimDark.colors /home/$USERNAME/.local/color-schemes/Aritim-Dark.colors
+cp -f KDE/colorScheme/AritimDark.colors /home/$USERNAME/.local/share/color-schemes/
 cd .. && rm -r Aritim-Dark
 echo "  Added Aritim-Dark for Qt and GTK Applications"
+
+mkdir -p /home/$USERNAME/.local/share/kio/servicemenus
+cp -f ${HOME}/ArchTitus/configs/mediainfo.desktop
+chmod u+x ${HOME}/ArchTitus/configs/mediainfo.desktop
+echo "  Added context menu to get media info in Dolphin"
 
 sudo chown -R $USERNAME:$USERNAME /home/$USERNAME/.config /home/$USERNAME/.local
 echo "  Assigning user $USERNAME ownership to .config and .locale"
