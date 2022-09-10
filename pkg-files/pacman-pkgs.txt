@@ -8,6 +8,7 @@ xorg-xinit
 alsa-utils
 alsa-plugins
 binutils
+bleachbit
 dosfstools
 firefox
 firefox-i18n-de
@@ -63,7 +64,7 @@ hunspell-de
 hunspell-en_us
 iptables-nft
 jdk-openjdk
-juk
+#juk
 kitty
 libdvdcss
 lib32-gamemode
