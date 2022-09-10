@@ -4,11 +4,13 @@ lightly-git
 #7-zip-full
 ani-cli
 autojump
+czkawka-gui
 ect
 # ect - probably best PNG optimizer
-ferdium-bin
+ferdium
 flips
 # flips - floating ips for ROM patching
+freac
 g4music
 #haruna
 #krop
