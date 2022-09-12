@@ -26,6 +26,6 @@ g4music
 powerstat
 #sddm-nordic-theme-git
 teamviewer
-#thinkfan
-#thinkfan-ui
+thinkfan
+thinkfan-ui
 ttf-ms-fonts
