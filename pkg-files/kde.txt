@@ -41,7 +41,6 @@ plasma-browser-integration
 plasma-nm
 plasma-pa
 powerdevil
-#print-manager
+print-manager
 qt5-imageformats
 spectacle
-zeroconf-ioslave
