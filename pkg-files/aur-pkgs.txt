@@ -11,6 +11,7 @@ ferdium
 flips
 # flips - floating ips for ROM patching
 freac
+gimp-plugin-bimp
 g4music
 #haruna
 #krop
