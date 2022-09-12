@@ -99,7 +99,7 @@ mountallsubvol () {
     mount -m -o ${MOUNT_OPTIONS},subvol=@swap ${partition2} /mnt/swap
     mount -m -o ${MOUNT_OPTIONS},subvol=@var_abs ${partition2} /mnt/var/abs
     mount -m -o ${MOUNT_OPTIONS},subvol=@var_cache_pacmanPkg ${partition2} /mnt/var/cache/pacman/pkg
-    mount -m -o ${MOUNT_OPTIONS},subvol=@var_lib_containers /dev/mapper/cryptroot/mnt/var/lib/containers
+    mount -m -o ${MOUNT_OPTIONS},subvol=@var_lib_containers ${partition2} /mnt/var/lib/containers
     mount -m -o ${MOUNT_OPTIONS},subvol=@var_lib_libvirtImages ${partition2} /mnt/var/lib/libvirt/images
     mount -m -o ${MOUNT_OPTIONS},subvol=@var_log ${partition2} /mnt/var/log
     mount -m -o ${MOUNT_OPTIONS},subvol=@var_tmp ${partition2} /mnt/var/tmp
