@@ -54,7 +54,6 @@ fuse3
 fuseiso
 gamemode
 gimp
-gimp-plugin-bimp
 gparted
 gptfdisk
 gst-libav
