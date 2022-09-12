@@ -50,7 +50,6 @@ dmidecode
 dnsmasq
 egl-wayland
 exfat-utils
-flatpak
 fuse2
 fuse3
 fuseiso
@@ -92,7 +91,6 @@ qt5-imageformats
 sigil
 snap-pac
 snapper
-steam
 #synergy
 terminus-font
 thunderbird
