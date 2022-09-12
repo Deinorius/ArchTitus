@@ -65,7 +65,6 @@ if [[ $AUR_HELPER == pamac ]]; then
   git clone https://aur.archlinux.org/archlinux-appstream-data-pamac.git && cd archlinux-appstream-data-pamac && makepkg -si --noconfirm --needed && cd ~
   git clone https://aur.archlinux.org/libpamac-nosnap.git && cd libpamac-nosnap && makepkg -si --noconfirm --needed && cd ~
   git clone https://aur.archlinux.org/pamac-nosnap.git && cd pamac-nosnap && makepkg -si --noconfirm --needed && cd ~
-  sudo pacman -Rs --noconfirm meson vala asciidoc
   rm -rf libpamac-nosnap pamac-nosnap archlinux-appstream-data-pamac
   # sed $INSTALL_TYPE is using install type to check for MINIMAL installation, if it's true, stop
   # stop the script and move on, not installing any more packages below that line
