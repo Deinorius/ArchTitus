@@ -42,6 +42,7 @@ calibre
 celluloid
 clipgrab
 cmatrix
+cups
 #dialog
 dmidecode
 dnsmasq
