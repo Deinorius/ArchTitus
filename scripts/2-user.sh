@@ -61,7 +61,7 @@ done
 
 if [[ $AUR_HELPER == pamac ]]; then
   cd ~
-  sudo pacman -S --noconfirm --needed meson vala asciidoc libhandy
+  sudo pacman -S --noconfirm --needed meson vala appstream-glib asciidoc libhandy
   git clone https://aur.archlinux.org/archlinux-appstream-data-pamac.git && cd archlinux-appstream-data-pamac && makepkg -si --noconfirm --needed && cd ~
   git clone https://aur.archlinux.org/libpamac-nosnap.git && cd libpamac-nosnap && makepkg -si --noconfirm --needed && cd ~
   git clone https://aur.archlinux.org/pamac-nosnap.git && cd pamac-nosnap && makepkg -si --noconfirm --needed && cd ~
