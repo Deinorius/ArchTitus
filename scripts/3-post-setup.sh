@@ -54,7 +54,7 @@ echo -ne "
 -------------------------------------------------------------------------
 "
 # set qemu modules, if installing via QEMU/virt-manager
-if [[ "${DISK}" == *"/dev/vd"* ]]; then
+if [[ "${DISK}" =~ "/dev/vd" ]]; then
     sed -i '7 s/.*/MODULES=(virtio virtio_pci virtio_blk virtio_net virtio_ring)/' /etc/mkinitcpio.conf
     sudo pacman -S --noconfirm qemu-guest-agent;
     systemctl enable qemu-guest-agent.service
@@ -65,7 +65,7 @@ echo -e "Creating /EFI/Arch folder"
 mkdir -p /efi/EFI/Arch
 
 echo -e "Editing mkinitcpio.conf..."
-if [[ ! "${DISK}" == *"/dev/vd"* ]]; then
+if [[ ! "${DISK}" =~ "/dev/vd" ]]; then
 sed -i "s/ALL_kver=\"\/boot\/vmlinuz-${KERNEL}\"/ALL_kver=\"\/boot\/vmlinuz-${KERNEL}\"\nALL_microcode=\"\/boot\/intel-ucode.img\"/" /etc/mkinitcpio.d/${KERNEL}.preset
 fi
 sed -i "s/#default_options=\"\"/default_efi_image=\"\/efi\/EFI\/Arch\/${KERNEL}.efi\"\ndefault_options=\"--splash \/usr\/share\/systemd\/bootctl\/splash-arch.bmp\"/" /etc/mkinitcpio.d/${KERNEL}.preset
@@ -227,6 +227,9 @@ echo -ne "
                     Cleaning
 -------------------------------------------------------------------------
 "
+# Remove package orphans
+pacman -Qtdq | pacman --noconfirm -Rns -
+
 # Remove no password sudo rights
 sed -i 's/^%wheel ALL=(ALL) NOPASSWD: ALL/# %wheel ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
 sed -i 's/^%wheel ALL=(ALL:ALL) NOPASSWD: ALL/# %wheel ALL=(ALL:ALL) NOPASSWD: ALL/' /etc/sudoers
