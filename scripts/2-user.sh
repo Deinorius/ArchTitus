@@ -62,9 +62,9 @@ done
 if [[ $AUR_HELPER == pamac ]]; then
   cd ~
   sudo pacman -S --noconfirm --needed meson vala appstream-glib asciidoc libhandy
-  git clone https://aur.archlinux.org/archlinux-appstream-data-pamac.git && cd archlinux-appstream-data-pamac && makepkg -si --noconfirm --needed && cd ~
-  git clone https://aur.archlinux.org/libpamac-nosnap.git && cd libpamac-nosnap && makepkg -si --noconfirm --needed && cd ~
-  git clone https://aur.archlinux.org/pamac-nosnap.git && cd pamac-nosnap && makepkg -si --noconfirm --needed && cd ~
+  git clone https://aur.archlinux.org/archlinux-appstream-data-pamac.git && cd archlinux-appstream-data-pamac && makepkg -si --noconfirm --needed && sleep 1 && cd ~
+  git clone https://aur.archlinux.org/libpamac-nosnap.git && cd libpamac-nosnap && makepkg -si --noconfirm --needed && sleep 1 && cd ~
+  git clone https://aur.archlinux.org/pamac-nosnap.git && cd pamac-nosnap && makepkg -si --noconfirm --needed && sleep 1 && cd ~
   rm -rf libpamac-nosnap pamac-nosnap archlinux-appstream-data-pamac
   # sed $INSTALL_TYPE is using install type to check for MINIMAL installation, if it's true, stop
   # stop the script and move on, not installing any more packages below that line
@@ -110,7 +110,7 @@ if [[ $DESKTOP_ENV == "kde" ]]; then
   konsave -i ~/ArchTitus/configs/kde.knsv
   sleep 1
   konsave -a kde
-  sudo pacman -R --noconfirm konsave
+  sudo pacman -Rs --noconfirm konsave
 elif [[ $DESKTOP_ENV == "openbox" ]]; then
   cd ~
   git clone https://github.com/stojshic/dotfiles-openbox
