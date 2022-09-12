@@ -21,6 +21,14 @@ Final Setup and Configurations
 
 source ${HOME}/ArchTitus/configs/setup.conf
 
+if [[ "${DISK}" =~ "nvme" ]]; then
+    partition1=${DISK}p1
+    partition2=${DISK}p2
+else
+    partition1=${DISK}1
+    partition2=${DISK}2
+fi
+
 if [[ "${FS}" == "luks" || "${FS}" == "btrfs" ]]; then
  sed -i '14 s/.*/BINARIES=(btrfs)/' /etc/mkinitcpio.conf
 
@@ -65,7 +73,7 @@ sed -i "s/fallback_options=\"-S autodetect\"/fallback_efi_image=\"\/efi\/EFI\/Ar
 
 echo -e "Kernel command line..."
 
-DISK_UUID=$(blkid -o value -s UUID ${DISK}2)
+DISK_UUID=$(blkid -o value -s UUID ${partition2})
 if [[ "${HIBERNATION}" == "do_hibernate" ]]; then
    wget https://raw.githubusercontent.com/osandov/osandov-linux/master/scripts/btrfs_map_physical.c
    gcc -O2 -o btrfs_map_physical btrfs_map_physical.c
@@ -78,7 +86,7 @@ if [[ "${HIBERNATION}" == "do_hibernate" ]]; then
       sed -i 's/HOOKS=(base systemd \(.*block\) /&sd-encrypt/' /etc/mkinitcpio.conf # create sd-encrypt after block hook
       echo "rd.luks.name=${DISK_UUID}=cryptroot rootflags=subvol=@ root=/dev/mapper/cryptroot resume=/dev/mapper/cryptroot resume_offset=${RESUME_OFF} rw bgrt_disable quiet loglevel=4 nmi_watchdog=0 nosgx" > /etc/kernel/cmdline
    else
-      echo "rootflags=subvol=@ root=UUID=${DISK_UUID} resume=${DISK}2 resume_offset=${RESUME_OFF} rw bgrt_disable quiet loglevel=4 nmi_watchdog=0 nosgx" > /etc/kernel/cmdline
+      echo "rootflags=subvol=@ root=UUID=${DISK_UUID} resume=${partition2} resume_offset=${RESUME_OFF} rw bgrt_disable quiet loglevel=4 nmi_watchdog=0 nosgx" > /etc/kernel/cmdline
    fi
    echo ${MAJMIN} > /sys/power/resume
    echo ${RESUME_OFF} > /sys/power/resume_offset
@@ -141,8 +149,8 @@ echo -ne "
                     Enabling Essential Services
 -------------------------------------------------------------------------
 "
-#systemctl enable cups.service
-#echo "  Cups enabled"
+systemctl enable cups.service
+echo "  Cups enabled"
 #ntpd -qg
 #systemctl enable ntpd.service
 #echo "  NTP enabled"
@@ -197,8 +205,8 @@ cd .. && rm -r Aritim-Dark
 echo "  Added Aritim-Dark for Qt and GTK Applications"
 
 mkdir -p /home/$USERNAME/.local/share/kio/servicemenus
-cp -f ${HOME}/ArchTitus/configs/mediainfo.desktop
-chmod u+x ${HOME}/ArchTitus/configs/mediainfo.desktop
+cp -f ${HOME}/ArchTitus/configs/mediainfo.desktop /home/$USERNAME/.local/share/kio/servicemenus/
+chmod u+x /home/$USERNAME/.local/share/kio/servicemenus/mediainfo.desktop
 echo "  Added context menu to get media info in Dolphin"
 
 sudo chown -R $USERNAME:$USERNAME /home/$USERNAME/.config /home/$USERNAME/.local
