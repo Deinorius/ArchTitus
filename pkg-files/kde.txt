@@ -17,6 +17,7 @@ audiocd-kio
 bluedevil
 extra-cmake-modules
 filelight
+flatpak
 gwenview
 kate
 kcalc
@@ -44,3 +45,4 @@ powerdevil
 print-manager
 qt5-imageformats
 spectacle
+steam
