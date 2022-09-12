@@ -7,6 +7,10 @@ xorg-xinit
 #alsa-firmware
 alsa-utils
 alsa-plugins
+pipewire-pulse
+pipewire-jack
+pipewire-alsa
+lib32-pipewire-jack
 binutils
 bleachbit
 dosfstools
@@ -15,13 +19,11 @@ firefox-i18n-de
 htop
 noto-fonts
 noto-fonts-emoji
-pipewire-pulse
-pipewire-jack
-pipewire-alsa
 power-profiles-daemon
 gst-plugin-pipewire
 ttf-dejavu
 ttf-liberation
+upower
 usbutils
 wireplumber
 xdg-user-dirs
@@ -48,7 +50,6 @@ dmidecode
 dnsmasq
 egl-wayland
 exfat-utils
-flatpak
 fuse2
 fuse3
 fuseiso
@@ -72,7 +73,6 @@ lib32-gst-plugins-base
 lib32-gst-plugins-good
 lib32-mesa
 lib32-pipewire
-lib32-pipewire-jack
 lib32-vulkan-icd-loader
 libreoffice-fresh
 libreoffice-fresh-de
@@ -91,7 +91,6 @@ qt5-imageformats
 sigil
 snap-pac
 snapper
-steam
 #synergy
 terminus-font
 thunderbird
