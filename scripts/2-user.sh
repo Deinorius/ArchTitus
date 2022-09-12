@@ -110,7 +110,7 @@ if [[ $DESKTOP_ENV == "kde" ]]; then
   konsave -i ~/ArchTitus/configs/kde.knsv
   sleep 1
   konsave -a kde
-  pacman -R konsave
+  sudo pacman -R --noconfirm konsave
 elif [[ $DESKTOP_ENV == "openbox" ]]; then
   cd ~
   git clone https://github.com/stojshic/dotfiles-openbox
