@@ -1,2 +1,4 @@
 lxde
 --END OF MINIMAL INSTALL--
+flatpak
+steam
