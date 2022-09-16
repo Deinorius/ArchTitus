@@ -34,7 +34,7 @@ pacman -S --noconfirm --needed reflector rsync arch-install-scripts git
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
 echo "--country Austria,Germany" >> /etc/xdg/reflector/reflector.conf
 
-nc=$(grep -c ^processor /proc/cpuinfo)
+nc=$(grep -c processor /proc/cpuinfo)
 echo -ne "
 -------------------------------------------------------------------------
                     You have " $nc" cores. And
@@ -46,7 +46,7 @@ TOTAL_MEM=$(cat /proc/meminfo | grep -i 'memtotal' | grep -o '[[:digit:]]*')
 if [[  $TOTAL_MEM -gt 8000000 ]]; then
 sed -i "s/#MAKEFLAGS=\"-j2\"/MAKEFLAGS=\"-j$nc\"/g" /etc/makepkg.conf
 sed -i "s/COMPRESSXZ=(xz -c -z -)/COMPRESSXZ=(xz -c -T $nc -z -)/g" /etc/makepkg.conf
-sed -i "s/COMPRESSZSTD=(zstd -c -z -)/COMPRESSZSTD=(zstd -c -z -q --threads=0 -)/g" /etc/makepkg.conf
+sed -i "s/COMPRESSZSTD=(zstd -c -z -q -)/COMPRESSZSTD=(zstd -c -z -q --threads=0 -)/g" /etc/makepkg.conf
 fi
 echo -ne "
 -------------------------------------------------------------------------
@@ -136,10 +136,10 @@ if grep -E "NVIDIA|GeForce" <<< ${gpu_type}; then
 elif lspci | grep 'VGA' | grep -E "Radeon|AMD"; then
     pacman -S --noconfirm --needed xf86-video-amdgpu vulkan-radeon lib32-vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver gstreamer-vaapi
 #elif grep -E "Integrated Graphics Controller" <<< ${gpu_type}; then
+elif grep -E "UHD Graphics" <<< ${gpu_type}; then
+    pacman -S --noconfirm --needed intel-media-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-utils
 elif lspci | grep 'VGA' | grep -E "Intel"; then
     pacman -S --noconfirm --needed libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-utils
-elif grep -E "Intel Corporation UHD" <<< ${gpu_type}; then
-    pacman -S --needed --noconfirm libva-intel-driver libvdpau-va-gl lib32-vulkan-intel vulkan-intel libva-utils
 fi
 #SETUP IS WRONG THIS IS RUN
 if ! source $HOME/ArchTitus/configs/setup.conf; then
@@ -189,8 +189,8 @@ echo -ne "
 if [ $(whoami) = "root"  ]; then
     groupadd gamemode
     groupadd libvirt
-    useradd -m -G wheel,games,gamemode,ftp,http,audio,libvirt -s /bin/bash $USERNAME 
-    echo "$USERNAME created, home directory created, added to wheel and libvirt group and more, default shell set to /bin/bash"
+    useradd -m -G wheel,games,gamemode,ftp,http,audio,optical,libvirt -s /bin/zsh $USERNAME 
+    echo "$USERNAME created, home directory created, added to wheel and libvirt group and more, default shell set to /bin/zsh"
 
 # use chpasswd to enter $USERNAME:$password
     echo "$USERNAME:$PASSWORD" | chpasswd
