@@ -7,7 +7,6 @@ rxvt-unicode
 --END OF MINIMAL INSTALL--
 alsa-utils
 wireless_tools
-zsh
 dunst
 tint2
 rofi
@@ -31,7 +30,6 @@ viewnior
 pavucontrol
 parcellite
 neofetch
-htop
 picom
 gtk2-perl
 xfce4-power-manager
