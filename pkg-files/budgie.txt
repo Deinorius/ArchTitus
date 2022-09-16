@@ -1,3 +1,5 @@
 budgie-desktop
 gnome
 --END OF MINIMAL INSTALL--
+flatpak
+steam
