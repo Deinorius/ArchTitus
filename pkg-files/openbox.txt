@@ -37,4 +37,5 @@ imagemagick
 playerctl
 xsettingsd
 obconf
-
+flatpak
+steam
