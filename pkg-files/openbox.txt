@@ -6,8 +6,6 @@ lxsession
 rxvt-unicode
 --END OF MINIMAL INSTALL--
 alsa-utils
-pulseaudio
-pulseaudio-alsa
 wireless_tools
 zsh
 dunst
@@ -29,7 +27,6 @@ tumbler
 jq
 w3m
 geany
-nano
 viewnior
 pavucontrol
 parcellite
