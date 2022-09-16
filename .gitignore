@@ -1,5 +1,7 @@
 install.conf
 installlog.txt
 archnikus.code-workspace
-setup.conf
+configs/setup.conf
+# keep logs out
+configs/*.log
 titusarch.png
