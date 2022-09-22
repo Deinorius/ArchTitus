@@ -45,5 +45,6 @@ plasma-pa
 powerdevil
 print-manager
 qt5-imageformats
+#skanlite
 spectacle
 steam
