@@ -24,6 +24,7 @@ kcalc
 kcodecs
 kcoreaddons
 kdegraphics-thumbnailers
+kdenetwork-filesharing
 kdeplasma-addons
 kdialog
 kgamma5
