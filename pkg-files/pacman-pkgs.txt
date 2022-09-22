@@ -39,21 +39,15 @@ bleachbit
 bluez
 bluez-libs
 bluez-utils
-#bridge-utils
 calibre
-celluloid
 clipgrab
 cmatrix
-cups
-#dialog
 dmidecode
-dnsmasq
 egl-wayland
 exfat-utils
 fuse2
 fuse3
 fuseiso
-gamemode
 gimp
 gparted
 gptfdisk
@@ -63,41 +57,58 @@ haveged
 hunspell
 hunspell-de
 hunspell-en_us
-iptables-nft
 jdk-openjdk
-#juk
 kitty
 libdvdcss
-lib32-gamemode
 lib32-gst-plugins-base
 lib32-gst-plugins-good
-lib32-mesa
-lib32-pipewire
-lib32-vulkan-icd-loader
 libreoffice-fresh
 libreoffice-fresh-de
 libtool
 libvirt
-lutris
 neofetch
-networkmanager-l2tp
 ntfs-3g
-openssh
 os-prober
 phonon-qt5-gstreamer
-#powerline-fonts # for vim
 qemu-desktop
 qt5-imageformats
 sigil
 snap-pac
 snapper
-#synergy
 terminus-font
 thunderbird
 torrential
-traceroute
+unrar
 virt-manager
 which
+### NETWORK
+#bridge-utils
+dnsmasq
+iptables-nft
+networkmanager-l2tp
+openssh
+samba
+traceroute
+### GAMING
+gamemode
+lib32-gamemode
+lib32-mesa
+lib32-pipewire
+lib32-vulkan-icd-loader
+lutris
+###  LAPTOP|POWERTOOLS
+intel-undervolt
+### PRINTING|SCANNING
+cups
+print-manager
+sane
+gscan2pdf
+#hplip
+###  OPTIONAL
+#celluloid
+#dialog
+#powerline-fonts # for vim
+#synergy
 #wine-gecko
 #wine-mono
 #winetricks
