@@ -32,6 +32,7 @@ thinkfan
 ### PRINTING|SCANNING
 #cnijfilter-common
 # Canon IJ Printer Driver
+#vuescan-bin
 ### MORETHEMING
 #lightlyshaders-git
 #nerd-fonts-fira-code
