@@ -21,19 +21,19 @@ teamviewer
 ttf-ms-fonts
 #virtio-win
 # Image with windows drivers in QEMU
-### GAMING
+############### GAMING
 #heroic-games-launcher-bin
 #mangohud
 #mangohud-common
 sgdboop-bin
 #steam-rom-manager-appimage
-### LAPTOP|POWERTOOLS
+############### LAPTOP|POWERTOOLS
 thinkfan
-### PRINTING|SCANNING
+############### PRINTING|SCANNING
 #cnijfilter-common
 # Canon IJ Printer Driver
 #vuescan-bin
-### MORETHEMING
+############### MORETHEMING
 #lightlyshaders-git
 #nerd-fonts-fira-code
 #nordic-darker-standard-buttons-theme
