@@ -52,6 +52,9 @@ gimp
 gparted
 gptfdisk
 gst-libav
+gst-plugins-base
+gst-plugins-bad
+gst-plugins-good
 gstreamer-vaapi
 haveged
 hunspell
