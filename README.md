@@ -7,6 +7,12 @@ I'm changing the scope of the project to only do minimal installs and no longer 
 
 This is currently a work in progress and check the branchs for the old versions.
 
+New single command quicklaunch
+
+```
+bash <(curl -L christitus.com/archtitus)
+```
+
 Old Script with all the customizations is located in the (all-in-one-2022 branch) here: <https://github.com/ChrisTitusTech/ArchTitus/tree/all-in-one-2022-script>
 
 # ArchTitus Installer Script
@@ -73,3 +79,7 @@ An issue is easier to resolve if it contains a few important pieces of informati
 
 - Original packages script was a post install cleanup script called ArchMatic located here: https://github.com/rickellis/ArchMatic
 - Thank you to all the folks that helped during the creation from YouTube Chat! Here are all those Livestreams showing the creation: <https://www.youtube.com/watch?v=IkMCtkDIhe8&list=PLc7fktTRMBowNaBTsDHlL6X3P3ViX3tYg>
+
+## GitHub Stats
+
+![Alt](https://repobeats.axiom.co/api/embed/ab6e7aa2540b5510906424e555a6773dfc3a76af.svg "Repobeats analytics image")
